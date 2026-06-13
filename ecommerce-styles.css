@@ -638,7 +638,7 @@ main.page-inner {
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 1px solid transparent;
+    border: 1px solid #e8e8e4;
     animation: cardReveal 0.45s ease both;
 }
 
@@ -658,18 +658,20 @@ main.page-inner {
 
 .product-image {
     width: 100%;
-    height: 240px;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+    height: 220px;
+    object-fit: contain;
+    padding: 16px;
+    transition: transform 0.4s ease;
 }
 
 .product-card:hover .product-image {
-    transform: scale(1.06);
+    transform: scale(1.04);
 }
 
 .image-wrapper {
     overflow: hidden;
     position: relative;
+    background-color: #f4f4f0;
 }
 
 .category-tag {
@@ -738,6 +740,10 @@ main.page-inner {
     margin-bottom: 18px;
     flex-grow: 1;
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* ===== BUTTONS ===== */
