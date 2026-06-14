@@ -29,7 +29,23 @@ const footerTerminos = document.getElementById('footer-terminos');
 // --- Initialization ---
 function init() {
     loadCartFromStorage();
-    renderHome();
+
+    const params = new URLSearchParams(window.location.search);
+    const estado = params.get('estado');
+
+    if (estado === 'aprobado') {
+        history.replaceState({}, '', window.location.pathname);
+        renderGracias();
+    } else if (estado === 'rechazado') {
+        history.replaceState({}, '', window.location.pathname);
+        renderPagoRechazado();
+    } else if (estado === 'pendiente') {
+        history.replaceState({}, '', window.location.pathname);
+        renderPagoPendiente();
+    } else {
+        renderHome();
+    }
+
     setupEventListeners();
 }
 
@@ -389,7 +405,10 @@ function renderCheckout() {
                         <label for="cf-cupon">Cupón de Descuento (Opcional)</label>
                         <input id="cf-cupon" name="cupon" type="text" class="form-control" placeholder="Ingresa tu código aquí">
                     </div>
-                    <button type="submit" class="btn btn-accent" style="width: 100%; font-size: 1.1rem; padding: 15px;">Confirmar Pedido</button>
+                    <button type="submit" class="btn btn-accent" style="width: 100%; font-size: 1.1rem; padding: 15px;" id="btn-pagar">
+                        <img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/5.21.22/mercadopago/logo__large@2x.png" alt="Mercado Pago" style="height:18px;vertical-align:middle;margin-right:8px;">
+                        Pagar con Mercado Pago
+                    </button>
                 </form>
             </div>
             
@@ -406,31 +425,92 @@ function renderCheckout() {
         </div>
     `;
 
-    document.getElementById('checkout-form').addEventListener('submit', (e) => {
+    document.getElementById('checkout-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const f = e.target;
+        const btn = document.getElementById('btn-pagar');
+
+        const externalRef = `LAT-${Date.now()}`;
+        const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+
         const orderData = {
             fecha: new Date().toLocaleString('es-CL'),
+            ref: externalRef,
             nombre: f.nombre.value,
             rut: f.rut.value,
             email: f.email.value,
             telefono: f.telefono.value,
             direccion: f.direccion.value,
             productos: cart.map(i => `${i.name} x${i.quantity}`).join(' | '),
-            total: formatPrice(cart.reduce((s, i) => s + i.price * i.quantity, 0))
+            total: formatPrice(total),
+            totalNum: total,
+            estado: 'pendiente_pago'
         };
         saveOrderToStorage(orderData);
-        showToast('¡Pedido registrado con éxito!', 'success');
-        cart = [];
-        saveCartToStorage();
-        updateCartUI();
-        renderGracias();
-        window.scrollTo(0, 0);
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i>Procesando...';
+
+        try {
+            const res = await fetch('/.netlify/functions/crear-preferencia', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: cart,
+                    payer: {
+                        nombre: f.nombre.value,
+                        email: f.email.value,
+                        telefono: f.telefono.value,
+                        direccion: f.direccion.value
+                    },
+                    external_reference: externalRef
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || 'Error al crear preferencia');
+
+            window.location.href = data.checkout_url;
+
+        } catch (err) {
+            console.error(err);
+            btn.disabled = false;
+            btn.innerHTML = '<img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/5.21.22/mercadopago/logo__large@2x.png" alt="Mercado Pago" style="height:18px;vertical-align:middle;margin-right:8px;">Pagar con Mercado Pago';
+            showToast('Error al conectar con Mercado Pago. Intenta de nuevo.', 'error');
+        }
     });
 }
 
 function renderGracias() {
     const orderNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+
+    // Recuperar total del último pedido antes de limpiar el carrito
+    const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+    const lastOrder = orders[orders.length - 1];
+    const totalNum = lastOrder?.totalNum || 0;
+
+    // Marcar pedido como pagado
+    if (lastOrder && lastOrder.estado === 'pendiente_pago') {
+        lastOrder.estado = 'pagado';
+        lastOrder.nroPedido = orderNumber;
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    }
+
+    // Limpiar carrito
+    cart = [];
+    saveCartToStorage();
+    updateCartUI();
+
+    // Google Ads — evento de compra
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'purchase', {
+            transaction_id: orderNumber,
+            value: totalNum,
+            currency: 'CLP',
+            items: []
+        });
+    }
     
     appContainer.innerHTML = `
         <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
@@ -453,6 +533,53 @@ function renderGracias() {
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0,0);
+    });
+}
+
+function renderPagoRechazado() {
+    appContainer.innerHTML = `
+        <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <i class="fa-solid fa-circle-xmark" style="font-size: 5rem; color: #e53e3e; margin-bottom: 20px;"></i>
+            <h1 style="font-size: 2rem; margin-bottom: 15px;">Pago no procesado</h1>
+            <p style="color: var(--text-gray); font-size: 1.1rem; margin-bottom: 30px;">
+                Tu pago fue rechazado o cancelado. No se realizó ningún cobro. Puedes intentarlo de nuevo con otro método de pago.
+            </p>
+            <button class="btn btn-accent" id="btn-reintentar-pago" style="font-size: 1.1rem; padding: 15px 30px; margin-right: 10px;">
+                Intentar de nuevo
+            </button>
+            <button class="btn" style="background: var(--bg-white); border: 2px solid var(--primary); color: var(--primary); font-size: 1.1rem; padding: 15px 30px;" id="btn-volver-catalogo-rechazo">
+                Ver Catálogo
+            </button>
+        </div>
+    `;
+    document.getElementById('btn-reintentar-pago').addEventListener('click', () => {
+        renderCheckout();
+        window.scrollTo(0, 0);
+    });
+    document.getElementById('btn-volver-catalogo-rechazo').addEventListener('click', () => {
+        setActiveNav(navCatalogo);
+        renderCatalog();
+        window.scrollTo(0, 0);
+    });
+}
+
+function renderPagoPendiente() {
+    appContainer.innerHTML = `
+        <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <i class="fa-solid fa-clock" style="font-size: 5rem; color: #d69e2e; margin-bottom: 20px;"></i>
+            <h1 style="font-size: 2rem; margin-bottom: 15px;">Pago en revisión</h1>
+            <p style="color: var(--text-gray); font-size: 1.1rem; margin-bottom: 30px;">
+                Tu pago está siendo procesado. Te avisaremos por correo electrónico cuando se confirme. Puedes seguir comprando mientras tanto.
+            </p>
+            <button class="btn btn-primary" id="btn-volver-catalogo-pendiente" style="font-size: 1.1rem; padding: 15px 30px;">
+                Seguir Comprando <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+            </button>
+        </div>
+    `;
+    document.getElementById('btn-volver-catalogo-pendiente').addEventListener('click', () => {
+        setActiveNav(navCatalogo);
+        renderCatalog();
+        window.scrollTo(0, 0);
     });
 }
 
