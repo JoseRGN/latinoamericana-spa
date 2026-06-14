@@ -405,9 +405,8 @@ function renderCheckout() {
                         <label for="cf-cupon">Cupón de Descuento (Opcional)</label>
                         <input id="cf-cupon" name="cupon" type="text" class="form-control" placeholder="Ingresa tu código aquí">
                     </div>
-                    <button type="submit" id="btn-pagar" style="width:100%;border:2px solid #009EE3;border-radius:10px;padding:14px 24px;font-size:1.05rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;color:#00347C;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,158,227,0.2);">
-                        <img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/5.21.22/mercadopago/logo__large@2x.png" alt="" style="height:22px;flex-shrink:0;">
-                        <span>Pagar con Mercado Pago</span>
+                    <button type="submit" id="btn-pagar" style="width:100%;border:2px solid #009EE3;border-radius:10px;padding:14px 24px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,158,227,0.2);">
+                        <img src="mercadopago-logo.png" alt="Mercado Pago" style="height:28px;flex-shrink:0;">
                     </button>
                 </form>
             </div>
@@ -476,7 +475,7 @@ function renderCheckout() {
         } catch (err) {
             console.error(err);
             btn.disabled = false;
-            btn.innerHTML = '<img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/5.21.22/mercadopago/logo__large@2x.png" alt="" style="height:22px;flex-shrink:0;"><span>Pagar con Mercado Pago</span>';
+            btn.innerHTML = '<img src="mercadopago-logo.png" alt="Mercado Pago" style="height:28px;flex-shrink:0;">';
             showToast('Error al conectar con Mercado Pago. Intenta de nuevo.', 'error');
         }
     });
