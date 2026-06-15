@@ -634,18 +634,18 @@ function renderContacto() {
                     <div class="contact-card-icon"><i class="fa-brands fa-whatsapp"></i></div>
                     <h3>WhatsApp</h3>
                     <p>Lunes a Sábado<br>9:00 – 18:00 hrs</p>
-                    <a href="https://wa.me/56912345678" target="_blank" rel="noopener"
+                    <a href="https://wa.me/5699999999" target="_blank" rel="noopener"
                        style="display:inline-block;margin-top:12px;color:var(--primary);font-weight:700;">
-                        +56 9 1234 5678 →
+                        +56 9 9999 9999 →
                     </a>
                 </div>
                 <div class="contact-card">
                     <div class="contact-card-icon"><i class="fa-solid fa-envelope"></i></div>
                     <h3>Correo Electrónico</h3>
                     <p>Respuesta en menos<br>de 24 horas hábiles</p>
-                    <a href="mailto:contacto@latinoamericana.cl"
+                    <a href="mailto:consultalatinoamericana@gmail.com"
                        style="display:inline-block;margin-top:12px;color:var(--primary);font-weight:700;">
-                        contacto@latinoamericana.cl →
+                        consultalatinoamericana@gmail.com →
                     </a>
                 </div>
                 <div class="contact-card">
@@ -659,7 +659,7 @@ function renderContacto() {
             <div class="contact-cta-box">
                 <h2>¿Listo para escribirnos?</h2>
                 <p>La forma más rápida es por WhatsApp. ¡Te respondemos al tiro!</p>
-                <a href="https://wa.me/56912345678?text=Hola%20Latinoamericana%20SpA%2C%20tengo%20una%20consulta"
+                <a href="https://wa.me/5699999999?text=Hola%20Latinoamericana%20SpA%2C%20tengo%20una%20consulta"
                    target="_blank" rel="noopener" class="btn-white">
                     <i class="fa-brands fa-whatsapp"></i> Abrir WhatsApp
                 </a>
@@ -694,7 +694,7 @@ function renderDevoluciones() {
 
             <h2>4. Proceso de Devolución</h2>
             <p>Para iniciar una devolución:<br><br>
-               1. Contáctanos por WhatsApp al <strong>+56 9 1234 5678</strong> o al correo <strong>contacto@latinoamericana.cl</strong>.<br>
+               1. Contáctanos por WhatsApp al <strong>+56 9 9999 9999</strong> o al correo <strong>consultalatinoamericana@gmail.com</strong>.<br>
                2. Indícanos tu número de orden, el producto a devolver y el motivo.<br>
                3. Te confirmaremos las instrucciones de envío o retiro.<br>
                4. Una vez recibido e inspeccionado el producto, procesaremos el reembolso o cambio.</p>
@@ -706,8 +706,8 @@ function renderDevoluciones() {
             <p>Todos nuestros productos cuentan con la garantía legal establecida en la Ley N° 19.496 del Consumidor. Si el producto presenta fallas de fabricación o viene en mal estado, tenemos la obligación legal de reponerlo, repararlo o devolver el dinero.</p>
 
             <h2>7. Contacto</h2>
-            <p>📱 WhatsApp: <a href="https://wa.me/56912345678" style="color:var(--primary);">+56 9 1234 5678</a><br>
-               ✉️ Email: <a href="mailto:contacto@latinoamericana.cl" style="color:var(--primary);">contacto@latinoamericana.cl</a></p>
+            <p>📱 WhatsApp: <a href="https://wa.me/5699999999" style="color:var(--primary);">+56 9 9999 9999</a><br>
+               ✉️ Email: <a href="mailto:consultalatinoamericana@gmail.com" style="color:var(--primary);">consultalatinoamericana@gmail.com</a></p>
         </div>
     `;
     window.scrollTo(0, 0);
