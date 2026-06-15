@@ -710,7 +710,7 @@ function renderCheckout() {
                         <input id="cf-cupon" name="cupon" type="text" class="form-control" placeholder="Ingresa tu código aquí">
                     </div>
                     <button type="submit" id="btn-pagar">
-                        <img src="/mercadopago-logo.png" alt="Mercado Pago">
+                        <i class="fa-solid fa-lock" style="margin-right:8px;"></i>Pagar con Mercado Pago
                     </button>
                 </form>
             </div>
@@ -779,7 +779,7 @@ function renderCheckout() {
         } catch (err) {
             console.error(err);
             btn.disabled = false;
-            btn.innerHTML = '<img src="/mercadopago-logo.png" alt="Mercado Pago">';
+            btn.innerHTML = '<i class="fa-solid fa-lock" style="margin-right:8px;"></i>Pagar con Mercado Pago';
             showToast('Error al conectar con Mercado Pago. Intenta de nuevo.', 'error');
         }
     });

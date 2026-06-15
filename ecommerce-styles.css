@@ -854,7 +854,7 @@ main.page-inner {
 /* ===== BOTÓN MERCADO PAGO ===== */
 #btn-pagar {
     width: 100%;
-    background: #ffffff !important;
+    background: #009EE3 !important;
     border: 2px solid #009EE3 !important;
     border-radius: 10px;
     padding: 12px 24px;
@@ -863,18 +863,18 @@ main.page-inner {
     align-items: center;
     justify-content: center;
     min-height: 56px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
     box-shadow: 0 2px 10px rgba(0,158,227,0.2);
     transition: box-shadow 0.2s, transform 0.2s;
 }
 
 #btn-pagar:hover {
+    background: #0088c7 !important;
+    border-color: #0088c7 !important;
     box-shadow: 0 4px 16px rgba(0,158,227,0.35);
     transform: translateY(-1px);
-}
-
-#btn-pagar img {
-    height: 32px;
-    display: block;
 }
 
 /* ===== PRODUCT DETAIL ===== */
