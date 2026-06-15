@@ -484,6 +484,10 @@ function renderCheckout() {
 function renderGracias() {
     const orderNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
 
+    // Extraer payment_id que Mercado Pago añade a la URL de retorno
+    const urlParams = new URLSearchParams(window.location.search);
+    const mpPaymentId = urlParams.get('payment_id') || null;
+
     // Recuperar total del último pedido antes de limpiar el carrito
     const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
     const lastOrder = orders[orders.length - 1];
@@ -494,6 +498,26 @@ function renderGracias() {
         lastOrder.estado = 'pagado';
         lastOrder.nroPedido = orderNumber;
         localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    }
+
+    // Guardar venta en Supabase
+    if (lastOrder) {
+        fetch('/.netlify/functions/guardar-venta', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nro_pedido: orderNumber,
+                fecha: lastOrder.fecha,
+                nombre: lastOrder.nombre,
+                email: lastOrder.email,
+                telefono: lastOrder.telefono,
+                direccion: lastOrder.direccion,
+                productos: lastOrder.productos,
+                total: lastOrder.totalNum,
+                estado: 'pagado',
+                mp_payment_id: mpPaymentId
+            })
+        }).catch(err => console.error('Error guardando venta:', err));
     }
 
     // Limpiar carrito
@@ -510,7 +534,7 @@ function renderGracias() {
             items: []
         });
     }
-    
+
     appContainer.innerHTML = `
         <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
             <i class="fa-solid fa-circle-check" style="font-size: 5rem; color: var(--secondary); margin-bottom: 20px; animation: bounceIn 0.8s ease;"></i>
@@ -519,8 +543,18 @@ function renderGracias() {
                 Hemos recibido tu pedido correctamente. Hemos enviado un comprobante a tu correo electrónico con los detalles.
             </p>
             <div style="background: var(--bg-light); padding: 20px; border-radius: var(--radius-sm); margin-bottom: 30px;">
-                <p style="margin: 0; font-weight: 600;">Número de Orden:</p>
-                <p style="margin: 5px 0 0; font-size: 1.5rem; color: var(--primary); font-family: 'Outfit', sans-serif;">#${orderNumber}</p>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                    <span style="font-weight: 600;">Número de Orden:</span>
+                    <span style="font-size: 1.1rem; color: var(--primary); font-family: 'Outfit', sans-serif;">#${orderNumber}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                    <span style="font-weight: 600;">Total pagado:</span>
+                    <span style="font-size: 1.1rem; color: var(--primary); font-weight: 700;">${formatPrice(totalNum)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: 600;">Moneda:</span>
+                    <span>CLP (Peso Chileno)</span>
+                </div>
             </div>
             <button class="btn btn-primary" id="btn-volver-catalogo-gracias" style="font-size: 1.1rem; padding: 15px 30px;">
                 Seguir Comprando <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
