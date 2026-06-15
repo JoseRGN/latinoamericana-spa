@@ -372,6 +372,20 @@ function renderHome() {
         slideInterval = setInterval(nextSlide, 5000);
     };
 
+    // Touch swipe support
+    const carousel = document.getElementById('promo-carousel');
+    let touchStartX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    carousel.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+            diff > 0 ? nextSlide() : prevSlide();
+            resetInterval();
+        }
+    }, { passive: true });
+
     resetInterval();
     window.currentCarouselInterval = slideInterval;
 
