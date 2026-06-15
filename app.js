@@ -91,7 +91,7 @@ function setupEventListeners() {
     footerCatalogo.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#catalogo'); setActiveNav(navCatalogo); renderCatalog(); window.scrollTo(0,0); });
 
     navOfertas.addEventListener('click', () => { history.pushState(null, '', '#ofertas'); setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
-    navRopaUsada.addEventListener('click', () => { history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
+    navRopaUsada?.addEventListener('click', () => { history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
     document.getElementById('footer-ropa-usada')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
 
     footerPrivacidad?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#privacidad'); setActiveNav(null); renderPrivacidad(); window.scrollTo(0,0); });
