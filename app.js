@@ -20,6 +20,7 @@ const cartTotalPrice = document.getElementById('cart-total-price');
 // Navigation Links
 const navInicio = document.getElementById('nav-inicio');
 const navCatalogo = document.getElementById('nav-catalogo');
+const navOfertas = document.getElementById('nav-ofertas');
 const logoBtn = document.getElementById('logo-btn');
 const footerInicio = document.getElementById('footer-inicio');
 const footerCatalogo = document.getElementById('footer-catalogo');
@@ -57,6 +58,8 @@ function setupEventListeners() {
     
     navCatalogo.addEventListener('click', () => { setActiveNav(navCatalogo); renderCatalog(); });
     footerCatalogo.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(navCatalogo); renderCatalog(); window.scrollTo(0,0); });
+
+    navOfertas.addEventListener('click', () => { setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
 
     footerPrivacidad?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(null); renderPrivacidad(); window.scrollTo(0,0); });
     footerTerminos?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(null); renderTerminos(); window.scrollTo(0,0); });
@@ -146,6 +149,37 @@ function renderHome() {
                 </button>
             </div>
         </section>
+
+        <section class="packs-home-section">
+            <div class="packs-home-header">
+                <span class="packs-tagline">Ahorra más comprando juntos</span>
+                <h2 class="section-title" style="margin-bottom: 10px;">Nuestros Packs & Combos</h2>
+                <p class="packs-subtitle">Combinaciones pensadas para tu hogar. Más productos, mejor precio.</p>
+            </div>
+            <div class="packs-home-grid">
+                ${products.filter(p => p.category === 'Packs & Combos').map(pack => `
+                    <div class="pack-home-card">
+                        <div class="pack-home-image">
+                            <img src="${pack.image}" alt="${pack.name}">
+                            ${pack.badge ? `<span class="pack-home-badge">${pack.badge}</span>` : ''}
+                        </div>
+                        <div class="pack-home-body">
+                            <h3 class="pack-home-name">${pack.name}</h3>
+                            <div class="pack-home-price">${formatPrice(pack.price)}</div>
+                            <ul class="pack-home-items">
+                                ${pack.packItems.map(item => `<li><i class="fa-solid fa-check"></i> ${item}</li>`).join('')}
+                            </ul>
+                            <div class="pack-home-actions">
+                                <button class="btn btn-primary view-detail-btn" data-id="${pack.id}" style="flex:1;">Ver Detalles</button>
+                                <button class="btn btn-accent add-to-cart-btn" data-id="${pack.id}" style="padding:12px 15px;" title="Agregar al Carrito">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </section>
     `;
 
     document.getElementById('btn-ver-catalogo').addEventListener('click', () => {
@@ -221,6 +255,29 @@ function renderHome() {
     window.currentCarouselInterval = slideInterval;
 
     attachProductCardEvents();
+}
+
+function renderOfertas() {
+    const ofertaProducts = products.filter(p => p.badge);
+
+    appContainer.innerHTML = `
+        <div class="ofertas-hero">
+            <div class="ofertas-hero-content">
+                <span class="ofertas-tagline">Tiempo Limitado</span>
+                <h1>🔥 Ofertas Especiales</h1>
+                <p>Los mejores precios en productos seleccionados. ¡No te los pierdas!</p>
+            </div>
+        </div>
+
+        <section style="margin-bottom: 60px;">
+            <div class="product-grid">
+                ${ofertaProducts.map(product => generateProductCard(product)).join('')}
+            </div>
+        </section>
+    `;
+
+    attachProductCardEvents();
+    window.scrollTo(0, 0);
 }
 
 function renderCatalog() {
