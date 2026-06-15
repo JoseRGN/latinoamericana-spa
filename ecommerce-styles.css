@@ -1928,3 +1928,334 @@ footer {
     .ofertas-hero h1 { font-size: 1.9rem; }
     .ofertas-hero p { font-size: 0.95rem; }
 }
+
+/* ===== ROPA USADA ===== */
+.ru-hero {
+    background: linear-gradient(135deg, #2d1b00 0%, #7c3d1a 55%, var(--accent) 100%);
+    border-radius: var(--radius-lg);
+    padding: 70px 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.ru-hero::before {
+    content: '👗';
+    position: absolute;
+    font-size: 16rem;
+    opacity: 0.05;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    line-height: 1;
+}
+
+.ru-hero-content { position: relative; z-index: 1; }
+
+.ru-hero-tag {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 14px;
+}
+
+.ru-hero h1 {
+    font-size: 3.2rem;
+    color: white;
+    margin-bottom: 16px;
+    font-family: 'Fraunces', serif;
+    line-height: 1.1;
+}
+
+.ru-hero p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.1rem;
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+/* Filtros */
+.ru-filters-bar {
+    background: var(--bg-white);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 22px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ru-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ru-filter-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    min-width: 70px;
+    flex-shrink: 0;
+}
+
+.ru-filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ru-pill {
+    background: var(--bg-light);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-pill);
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.ru-pill:hover { border-color: var(--accent); color: var(--accent); }
+.ru-pill.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* Grid */
+.ru-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-bottom: 60px;
+}
+
+.ru-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    padding: 40px 0;
+}
+
+/* Cards */
+.ru-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1.5px solid var(--glass-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.ru-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 48px rgba(201, 90, 40, 0.16);
+    border-color: var(--accent);
+}
+
+.ru-image {
+    position: relative;
+    height: 200px;
+    background: #f5ede6;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ru-image::before {
+    content: '👗';
+    font-size: 3.5rem;
+    opacity: 0.2;
+    position: absolute;
+}
+
+.ru-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s ease;
+}
+
+.ru-card:hover .ru-image img { transform: scale(1.06); }
+
+.ru-size-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(253, 252, 249, 0.95);
+    color: var(--text-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    z-index: 2;
+    letter-spacing: 0.5px;
+}
+
+.ru-condition {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    z-index: 2;
+}
+
+.cond-excelente { background: var(--primary); color: white; }
+.cond-muy-bueno { background: #2563eb; color: white; }
+.cond-bueno     { background: var(--warning); color: white; }
+
+.ru-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.ru-category-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.ru-name {
+    font-size: 1rem;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.ru-desc {
+    font-size: 0.82rem;
+    color: var(--text-gray);
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ru-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.ru-price {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Fraunces', serif;
+}
+
+.btn-wa-ropa {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.btn-wa-ropa:hover { background: #1ebe5b; transform: scale(1.04); }
+
+/* CTA vender */
+.ru-cta-box {
+    background: linear-gradient(135deg, #fef3ec 0%, #fde8d8 100%);
+    border: 1.5px solid rgba(201, 90, 40, 0.2);
+    border-radius: var(--radius-lg);
+    padding: 56px 40px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.ru-cta-icon { font-size: 3rem; margin-bottom: 16px; }
+
+.ru-cta-box h2 {
+    font-size: 2rem;
+    font-family: 'Fraunces', serif;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.ru-cta-box p {
+    color: var(--text-gray);
+    font-size: 1rem;
+    max-width: 440px;
+    margin: 0 auto 28px;
+}
+
+/* Responsive ropa usada */
+@media (max-width: 1024px) {
+    .ru-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .ru-hero { padding: 50px 24px; }
+    .ru-hero h1 { font-size: 2.4rem; }
+
+    .ru-filters-bar { padding: 18px 16px; }
+    .ru-filter-group { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .ru-filter-label { min-width: auto; }
+    .ru-filter-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; scrollbar-width: none; }
+    .ru-filter-pills::-webkit-scrollbar { display: none; }
+    .ru-pill { flex-shrink: 0; }
+
+    .ru-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .ru-cta-box { padding: 40px 24px; }
+    .ru-cta-box h2 { font-size: 1.6rem; }
+}
+
+@media (max-width: 480px) {
+    .ru-hero { padding: 40px 18px; border-radius: var(--radius-md); }
+    .ru-hero h1 { font-size: 2rem; }
+    .ru-hero p { font-size: 0.95rem; }
+
+    .ru-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .ru-image { height: 160px; }
+    .ru-body { padding: 14px; }
+    .ru-name { font-size: 0.9rem; }
+    .ru-price { font-size: 1.05rem; }
+    .ru-desc { font-size: 0.78rem; -webkit-line-clamp: 2; }
+    .btn-wa-ropa { font-size: 0.76rem; padding: 7px 12px; }
+
+    .ru-cta-box { padding: 32px 18px; border-radius: var(--radius-md); }
+}

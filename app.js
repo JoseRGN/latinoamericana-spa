@@ -21,6 +21,7 @@ const cartTotalPrice = document.getElementById('cart-total-price');
 const navInicio = document.getElementById('nav-inicio');
 const navCatalogo = document.getElementById('nav-catalogo');
 const navOfertas = document.getElementById('nav-ofertas');
+const navRopaUsada = document.getElementById('nav-ropa-usada');
 const logoBtn = document.getElementById('logo-btn');
 const footerInicio = document.getElementById('footer-inicio');
 const footerCatalogo = document.getElementById('footer-catalogo');
@@ -60,6 +61,8 @@ function setupEventListeners() {
     footerCatalogo.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(navCatalogo); renderCatalog(); window.scrollTo(0,0); });
 
     navOfertas.addEventListener('click', () => { setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
+    navRopaUsada.addEventListener('click', () => { setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
+    document.getElementById('footer-ropa-usada')?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
 
     footerPrivacidad?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(null); renderPrivacidad(); window.scrollTo(0,0); });
     footerTerminos?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(null); renderTerminos(); window.scrollTo(0,0); });
@@ -277,6 +280,130 @@ function renderOfertas() {
     `;
 
     attachProductCardEvents();
+    window.scrollTo(0, 0);
+}
+
+function renderRopaUsada() {
+    const categories = ['Todas', ...new Set(ropaUsada.map(p => p.category))];
+    const sizes     = ['Todas', ...new Set(ropaUsada.map(p => p.size))];
+    const genders   = ['Todos', ...new Set(ropaUsada.map(p => p.gender))];
+
+    let activeCategory = 'Todas';
+    let activeGender   = 'Todos';
+    let activeSize     = 'Todas';
+
+    function getFiltered() {
+        return ropaUsada.filter(item => {
+            const catOk  = activeCategory === 'Todas' || item.category === activeCategory;
+            const genOk  = activeGender   === 'Todos' || item.gender   === activeGender;
+            const sizeOk = activeSize     === 'Todas' || item.size     === activeSize;
+            return catOk && genOk && sizeOk;
+        });
+    }
+
+    function condClass(cond) {
+        if (cond === 'Excelente') return 'cond-excelente';
+        if (cond === 'Muy Bueno') return 'cond-muy-bueno';
+        return 'cond-bueno';
+    }
+
+    function generateItemCard(item) {
+        const waMsg = encodeURIComponent(`Hola! Me interesa ${item.name} (Talla ${item.size}, ${item.condition}) por $${item.price.toLocaleString('es-CL')}. ¿Está disponible?`);
+        return `
+            <div class="ru-card">
+                <div class="ru-image">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.style.opacity='0'">
+                    <span class="ru-size-tag">Talla ${item.size}</span>
+                    <span class="ru-condition ${condClass(item.condition)}">${item.condition}</span>
+                </div>
+                <div class="ru-body">
+                    <span class="ru-category-label">${item.category} · ${item.gender}</span>
+                    <h3 class="ru-name">${item.name}</h3>
+                    <p class="ru-desc">${item.description}</p>
+                    <div class="ru-footer-row">
+                        <span class="ru-price">${formatPrice(item.price)}</span>
+                        <a href="https://wa.me/5699999999?text=${waMsg}" target="_blank" rel="noopener" class="btn-wa-ropa">
+                            <i class="fa-brands fa-whatsapp"></i> Consultar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderGrid() {
+        const grid = document.querySelector('.ru-grid');
+        if (!grid) return;
+        const filtered = getFiltered();
+        grid.innerHTML = filtered.length
+            ? filtered.map(generateItemCard).join('')
+            : '<p class="ru-empty">No hay prendas con esos filtros por ahora.</p>';
+    }
+
+    const waVender = encodeURIComponent('Hola! Me gustaría publicar ropa usada en su tienda. ¿Cómo funciona?');
+
+    appContainer.innerHTML = `
+        <div class="ru-hero">
+            <div class="ru-hero-content">
+                <span class="ru-hero-tag">Moda Circular · Sostenible</span>
+                <h1>👗 Ropa Usada</h1>
+                <p>Prendas cuidadas a precio justo. Dale una segunda vida a la moda.</p>
+            </div>
+        </div>
+
+        <div class="ru-filters-bar">
+            <div class="ru-filter-group">
+                <span class="ru-filter-label">Categoría</span>
+                <div class="ru-filter-pills">
+                    ${categories.map(cat => `<button class="ru-pill${cat === 'Todas' ? ' active' : ''}" data-type="cat" data-val="${cat}">${cat}</button>`).join('')}
+                </div>
+            </div>
+            <div class="ru-filter-group">
+                <span class="ru-filter-label">Género</span>
+                <div class="ru-filter-pills">
+                    ${genders.map(g => `<button class="ru-pill${g === 'Todos' ? ' active' : ''}" data-type="gen" data-val="${g}">${g}</button>`).join('')}
+                </div>
+            </div>
+            <div class="ru-filter-group">
+                <span class="ru-filter-label">Talla</span>
+                <div class="ru-filter-pills">
+                    ${sizes.map(s => `<button class="ru-pill${s === 'Todas' ? ' active' : ''}" data-type="size" data-val="${s}">${s}</button>`).join('')}
+                </div>
+            </div>
+        </div>
+
+        <div class="ru-grid">
+            ${getFiltered().map(generateItemCard).join('')}
+        </div>
+
+        <div class="ru-cta-box">
+            <div class="ru-cta-icon">👗</div>
+            <h2>¿Tienes ropa para vender?</h2>
+            <p>Contáctanos por WhatsApp y te explicamos cómo publicar tus prendas en nuestra tienda circular.</p>
+            <a href="https://wa.me/5699999999?text=${waVender}" target="_blank" rel="noopener" class="btn btn-accent">
+                <i class="fa-brands fa-whatsapp"></i> Quiero Vender mi Ropa
+            </a>
+        </div>
+    `;
+
+    document.querySelectorAll('.ru-pill').forEach(pill => {
+        pill.addEventListener('click', (e) => {
+            const { type, val } = e.target.dataset;
+            if (type === 'cat') {
+                activeCategory = val;
+                document.querySelectorAll('[data-type="cat"]').forEach(p => p.classList.remove('active'));
+            } else if (type === 'gen') {
+                activeGender = val;
+                document.querySelectorAll('[data-type="gen"]').forEach(p => p.classList.remove('active'));
+            } else {
+                activeSize = val;
+                document.querySelectorAll('[data-type="size"]').forEach(p => p.classList.remove('active'));
+            }
+            e.target.classList.add('active');
+            renderGrid();
+        });
+    });
+
     window.scrollTo(0, 0);
 }
 
