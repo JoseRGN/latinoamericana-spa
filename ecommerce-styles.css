@@ -1723,6 +1723,106 @@ footer {
     .btn-wa-ropa { display: inline-flex; width: auto; white-space: nowrap; }
 }
 
+/* ===== HOME PROMO BANNERS ===== */
+.home-promo-banners {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 60px;
+}
+
+.home-promo-banner {
+    border-radius: var(--radius-md);
+    padding: 50px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    min-height: 260px;
+}
+
+.banner-ropa-usada {
+    background: linear-gradient(135deg, #4a2c2a 0%, #8b5e52 100%);
+}
+
+.banner-packs-promo {
+    background: linear-gradient(135deg, #1b5e4b 0%, #2d8a6a 100%);
+}
+
+.home-promo-banner-content {
+    position: relative;
+    z-index: 1;
+    max-width: 320px;
+}
+
+.home-promo-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+
+.home-promo-banner h2 {
+    color: white;
+    font-size: 1.75rem;
+    margin-bottom: 12px;
+    line-height: 1.25;
+}
+
+.home-promo-banner p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.88rem;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.btn-promo-light {
+    background: white;
+    color: #4a2c2a;
+    padding: 11px 22px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-promo-light:hover {
+    background: #f5f0ef;
+    transform: translateY(-2px);
+}
+
+.home-promo-banner-deco {
+    font-size: 7rem;
+    opacity: 0.12;
+    position: absolute;
+    right: 30px;
+    bottom: -10px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .home-promo-banners {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .home-promo-banner {
+        min-height: 200px;
+        padding: 36px 28px;
+    }
+    .home-promo-banner h2 { font-size: 1.4rem; }
+    .home-promo-banner-deco { font-size: 5rem; right: 16px; }
+}
+
 /* ===== PACKS HOME SECTION ===== */
 .packs-home-section {
     margin: 0 0 70px;

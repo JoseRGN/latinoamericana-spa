@@ -186,6 +186,27 @@ function renderHome() {
             </div>
         </section>
 
+        <section class="home-promo-banners">
+            <div class="home-promo-banner banner-ropa-usada">
+                <div class="home-promo-banner-content">
+                    <span class="home-promo-tag">Segunda Mano</span>
+                    <h2>👗 Ropa Usada<br>de Calidad</h2>
+                    <p>Prendas seleccionadas, revisadas y listas para usar. Moda consciente al mejor precio.</p>
+                    <button class="btn btn-promo-light" id="btn-banner-ropa-usada">Ver Ropa Usada <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></button>
+                </div>
+                <div class="home-promo-banner-deco" aria-hidden="true">👗</div>
+            </div>
+            <div class="home-promo-banner banner-packs-promo">
+                <div class="home-promo-banner-content">
+                    <span class="home-promo-tag">Ahorra más</span>
+                    <h2>🧴 Kits Completos<br>para tu Hogar</h2>
+                    <p>Combina los productos esenciales y paga menos. Todo lo que necesitas en un solo pack.</p>
+                    <button class="btn btn-accent" id="btn-banner-packs-promo">Ver Packs <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></button>
+                </div>
+                <div class="home-promo-banner-deco" aria-hidden="true">🧴</div>
+            </div>
+        </section>
+
         <section class="packs-home-section">
             <div class="packs-home-header">
                 <span class="packs-tagline">Ahorra más comprando juntos</span>
@@ -239,6 +260,20 @@ function renderHome() {
         history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
+        window.scrollTo(0,0);
+    });
+
+    document.getElementById('btn-banner-ropa-usada').addEventListener('click', () => {
+        history.pushState(null, '', '#ropa-usada');
+        setActiveNav(navRopaUsada);
+        renderRopaUsada();
+        window.scrollTo(0,0);
+    });
+
+    document.getElementById('btn-banner-packs-promo').addEventListener('click', () => {
+        history.pushState(null, '', '#ofertas');
+        setActiveNav(navOfertas);
+        renderOfertas();
         window.scrollTo(0,0);
     });
 
@@ -308,7 +343,7 @@ function renderOfertas() {
             </div>
         </div>
 
-        <section style="margin-bottom: 60px;">
+        <section style="max-width: 980px; margin: 0 auto 60px;">
             <div class="product-grid">
                 ${ofertaProducts.map(product => generateProductCard(product)).join('')}
             </div>
@@ -869,9 +904,10 @@ function renderContacto() {
                     <h3>Correo Electrónico</h3>
                     <p>Respuesta en menos<br>de 24 horas hábiles</p>
                     <a href="mailto:consultalatinoamericana@gmail.com"
-                       style="display:inline-block;margin-top:12px;color:var(--primary);font-weight:700;">
-                        consultalatinoamericana@gmail.com →
+                       style="display:block;margin-top:12px;color:var(--primary);font-weight:700;word-break:break-all;font-size:0.82rem;">
+                        consultalatinoamericana@gmail.com
                     </a>
+                    <span style="display:block;margin-top:4px;color:var(--primary);font-size:0.9rem;">→</span>
                 </div>
                 <div class="contact-card">
                     <div class="contact-card-icon"><i class="fa-solid fa-clock"></i></div>
