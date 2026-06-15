@@ -1718,8 +1718,9 @@ footer {
     .ru-grid { grid-template-columns: 1fr; gap: 12px; }
     .ru-image { height: 180px; }
     .ru-body { padding: 16px; }
-    .ru-footer-row { flex-direction: row; align-items: center; }
-    .btn-wa-ropa { width: auto; }
+    .ru-footer-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .ru-price { display: inline; margin-bottom: 0; }
+    .btn-wa-ropa { display: inline-flex; width: auto; white-space: nowrap; }
 }
 
 /* ===== PACKS HOME SECTION ===== */
@@ -2265,15 +2266,20 @@ footer {
 
     /* Apilar precio y botón en tarjetas angostas */
     .ru-footer-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
+        display: block;
+    }
+    .ru-price {
+        display: block;
+        margin-bottom: 8px;
     }
     .btn-wa-ropa {
+        display: flex;
         width: 100%;
+        box-sizing: border-box;
         justify-content: center;
         font-size: 0.78rem;
         padding: 8px 10px;
+        white-space: normal;
     }
 
     .ru-cta-box { padding: 32px 18px; border-radius: var(--radius-md); }

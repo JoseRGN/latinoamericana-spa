@@ -297,7 +297,7 @@ function renderHome() {
 }
 
 function renderOfertas() {
-    const ofertaProducts = products.filter(p => p.badge);
+    const ofertaProducts = products.filter(p => p.category === 'Packs & Combos');
 
     appContainer.innerHTML = `
         <div class="ofertas-hero">
