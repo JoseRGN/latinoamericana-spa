@@ -11,3 +11,8 @@ Thumbs.db
 
 # Temporales
 scratch/
+
+# Claude Code
+.agents/
+.claude/
+skills-lock.json
