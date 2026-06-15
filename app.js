@@ -153,12 +153,28 @@ function renderHome() {
                         <button class="btn btn-primary" id="btn-banner-vendidos">Ver Favoritos <i class="fa-solid fa-star" style="margin-left: 8px;"></i></button>
                     </div>
                 </div>
+                <div class="promo-banner slide" style="background: linear-gradient(135deg, #4a2c2a 0%, #7a4a3a 60%, #8b5e52 100%);">
+                    <div class="banner-content">
+                        <h2>👗 Ropa Usada de Calidad</h2>
+                        <p>Prendas seleccionadas, revisadas y listas para usar. Moda consciente al mejor precio.</p>
+                        <button class="btn btn-promo-light" id="btn-carousel-ropa-usada">Ver Ropa Usada <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
+                    </div>
+                </div>
+                <div class="promo-banner slide" style="background: linear-gradient(135deg, #1b5e4b 0%, #2d8a6a 60%, #3aab84 100%);">
+                    <div class="banner-content">
+                        <h2>🧴 Kits Completos para tu Hogar</h2>
+                        <p>Combina los productos esenciales y paga menos. Todo lo que necesitas en un solo pack.</p>
+                        <button class="btn btn-accent" id="btn-carousel-packs">Ver Packs <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
+                    </div>
+                </div>
             </div>
             <button class="carousel-nav prev" id="carousel-prev"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="carousel-nav next" id="carousel-next"><i class="fa-solid fa-chevron-right"></i></button>
             <div class="carousel-indicators">
                 <span class="indicator active" data-index="0"></span>
                 <span class="indicator" data-index="1"></span>
+                <span class="indicator" data-index="2"></span>
+                <span class="indicator" data-index="3"></span>
             </div>
         </section>
 
@@ -183,27 +199,6 @@ function renderHome() {
                 <button class="btn" style="background: var(--bg-white); border: 2px solid var(--primary); color: var(--primary);" id="btn-ver-mas">
                     Ver todos los productos
                 </button>
-            </div>
-        </section>
-
-        <section class="home-promo-banners">
-            <div class="home-promo-banner banner-ropa-usada">
-                <div class="home-promo-banner-content">
-                    <span class="home-promo-tag">Segunda Mano</span>
-                    <h2>👗 Ropa Usada<br>de Calidad</h2>
-                    <p>Prendas seleccionadas, revisadas y listas para usar. Moda consciente al mejor precio.</p>
-                    <button class="btn btn-promo-light" id="btn-banner-ropa-usada">Ver Ropa Usada <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></button>
-                </div>
-                <div class="home-promo-banner-deco" aria-hidden="true">👗</div>
-            </div>
-            <div class="home-promo-banner banner-packs-promo">
-                <div class="home-promo-banner-content">
-                    <span class="home-promo-tag">Ahorra más</span>
-                    <h2>🧴 Kits Completos<br>para tu Hogar</h2>
-                    <p>Combina los productos esenciales y paga menos. Todo lo que necesitas en un solo pack.</p>
-                    <button class="btn btn-accent" id="btn-banner-packs-promo">Ver Packs <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></button>
-                </div>
-                <div class="home-promo-banner-deco" aria-hidden="true">🧴</div>
             </div>
         </section>
 
@@ -235,6 +230,27 @@ function renderHome() {
                         </div>
                     </div>
                 `).join('')}
+            </div>
+        </section>
+
+        <section class="home-promo-banners">
+            <div class="home-promo-banner banner-ropa-usada">
+                <div class="home-promo-banner-content">
+                    <span class="home-promo-tag">Segunda Mano</span>
+                    <h2>👗 Ropa Usada<br>de Calidad</h2>
+                    <p>Prendas seleccionadas, revisadas y listas para usar. Moda consciente al mejor precio.</p>
+                    <button class="btn btn-promo-light" id="btn-banner-ropa-usada">Ver Ropa Usada <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></button>
+                </div>
+                <div class="home-promo-banner-deco" aria-hidden="true">👗</div>
+            </div>
+            <div class="home-promo-banner banner-packs-promo">
+                <div class="home-promo-banner-content">
+                    <span class="home-promo-tag">Ahorra más</span>
+                    <h2>🧴 Kits Completos<br>para tu Hogar</h2>
+                    <p>Combina los productos esenciales y paga menos. Todo lo que necesitas en un solo pack.</p>
+                    <button class="btn btn-accent" id="btn-banner-packs-promo">Ver Packs <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></button>
+                </div>
+                <div class="home-promo-banner-deco" aria-hidden="true">🧴</div>
             </div>
         </section>
     `;
@@ -271,6 +287,20 @@ function renderHome() {
     });
 
     document.getElementById('btn-banner-packs-promo').addEventListener('click', () => {
+        history.pushState(null, '', '#ofertas');
+        setActiveNav(navOfertas);
+        renderOfertas();
+        window.scrollTo(0,0);
+    });
+
+    document.getElementById('btn-carousel-ropa-usada').addEventListener('click', () => {
+        history.pushState(null, '', '#ropa-usada');
+        setActiveNav(navRopaUsada);
+        renderRopaUsada();
+        window.scrollTo(0,0);
+    });
+
+    document.getElementById('btn-carousel-packs').addEventListener('click', () => {
         history.pushState(null, '', '#ofertas');
         setActiveNav(navOfertas);
         renderOfertas();
