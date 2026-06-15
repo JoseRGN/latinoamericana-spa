@@ -102,6 +102,23 @@ function setupEventListeners() {
     document.getElementById('footer-devoluciones')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#devoluciones'); renderDevoluciones(); window.scrollTo(0,0); });
     document.getElementById('footer-admin')?.addEventListener('click', (e) => { e.preventDefault(); renderAdmin(); window.scrollTo(0,0); });
 
+    // Header search
+    const headerSearchInput = document.getElementById('header-search-input');
+    if (headerSearchInput) {
+        headerSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && headerSearchInput.value.trim()) {
+                searchQuery = headerSearchInput.value.trim();
+                currentCategory = 'All';
+                headerSearchInput.value = '';
+                headerSearchInput.blur();
+                history.pushState(null, '', '#catalogo');
+                setActiveNav(navCatalogo);
+                renderCatalog();
+                window.scrollTo(0, 0);
+            }
+        });
+    }
+
     // Botón atrás/adelante del navegador
     window.addEventListener('popstate', routeFromHash);
 
