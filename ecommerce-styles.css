@@ -1713,6 +1713,13 @@ footer {
     .product-title { font-size: 1rem; }
     .product-price { font-size: 1.2rem; }
     .product-desc { -webkit-line-clamp: 3; }
+
+    /* Ropa Usada: 1 columna en pantallas muy pequeñas */
+    .ru-grid { grid-template-columns: 1fr; gap: 12px; }
+    .ru-image { height: 180px; }
+    .ru-body { padding: 16px; }
+    .ru-footer-row { flex-direction: row; align-items: center; }
+    .btn-wa-ropa { width: auto; }
 }
 
 /* ===== PACKS HOME SECTION ===== */
@@ -2250,12 +2257,24 @@ footer {
     .ru-hero p { font-size: 0.95rem; }
 
     .ru-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .ru-image { height: 160px; }
-    .ru-body { padding: 14px; }
-    .ru-name { font-size: 0.9rem; }
-    .ru-price { font-size: 1.05rem; }
-    .ru-desc { font-size: 0.78rem; -webkit-line-clamp: 2; }
-    .btn-wa-ropa { font-size: 0.76rem; padding: 7px 12px; }
+    .ru-image { height: 150px; }
+    .ru-body { padding: 12px; }
+    .ru-name { font-size: 0.88rem; margin-bottom: 6px; }
+    .ru-price { font-size: 1rem; }
+    .ru-desc { font-size: 0.76rem; -webkit-line-clamp: 2; margin-bottom: 10px; }
+
+    /* Apilar precio y botón en tarjetas angostas */
+    .ru-footer-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .btn-wa-ropa {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.78rem;
+        padding: 8px 10px;
+    }
 
     .ru-cta-box { padding: 32px 18px; border-radius: var(--radius-md); }
 }

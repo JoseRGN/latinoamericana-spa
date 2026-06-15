@@ -28,6 +28,33 @@ const footerCatalogo = document.getElementById('footer-catalogo');
 const footerPrivacidad = document.getElementById('footer-privacidad');
 const footerTerminos = document.getElementById('footer-terminos');
 
+// --- Hash Routing ---
+function routeFromHash() {
+    const hash = window.location.hash.slice(1); // strip '#'
+    if (!hash || hash === 'home') {
+        setActiveNav(navInicio); renderHome();
+    } else if (hash === 'catalogo') {
+        setActiveNav(navCatalogo); renderCatalog();
+    } else if (hash === 'ofertas') {
+        setActiveNav(navOfertas); renderOfertas();
+    } else if (hash === 'ropa-usada') {
+        setActiveNav(navRopaUsada); renderRopaUsada();
+    } else if (hash === 'contacto') {
+        renderContacto();
+    } else if (hash === 'privacidad') {
+        setActiveNav(null); renderPrivacidad();
+    } else if (hash === 'terminos') {
+        setActiveNav(null); renderTerminos();
+    } else if (hash === 'devoluciones') {
+        setActiveNav(null); renderDevoluciones();
+    } else if (hash.startsWith('product/')) {
+        renderProductDetail(hash.replace('product/', ''));
+    } else {
+        setActiveNav(navInicio); renderHome();
+    }
+    window.scrollTo(0, 0);
+}
+
 // --- Initialization ---
 function init() {
     loadCartFromStorage();
@@ -45,7 +72,10 @@ function init() {
         history.replaceState({}, '', window.location.pathname);
         renderPagoPendiente();
     } else {
-        renderHome();
+        if (!window.location.hash) {
+            history.replaceState(null, '', '#home');
+        }
+        routeFromHash();
     }
 
     setupEventListeners();
@@ -53,24 +83,27 @@ function init() {
 
 // --- Event Listeners ---
 function setupEventListeners() {
-    navInicio.addEventListener('click', () => { setActiveNav(navInicio); renderHome(); });
-    logoBtn.addEventListener('click', () => { setActiveNav(navInicio); renderHome(); });
-    footerInicio.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(navInicio); renderHome(); window.scrollTo(0,0); });
-    
-    navCatalogo.addEventListener('click', () => { setActiveNav(navCatalogo); renderCatalog(); });
-    footerCatalogo.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(navCatalogo); renderCatalog(); window.scrollTo(0,0); });
+    navInicio.addEventListener('click', () => { history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); });
+    logoBtn.addEventListener('click', () => { history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); });
+    footerInicio.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); window.scrollTo(0,0); });
 
-    navOfertas.addEventListener('click', () => { setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
-    navRopaUsada.addEventListener('click', () => { setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
-    document.getElementById('footer-ropa-usada')?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
+    navCatalogo.addEventListener('click', () => { history.pushState(null, '', '#catalogo'); setActiveNav(navCatalogo); renderCatalog(); });
+    footerCatalogo.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#catalogo'); setActiveNav(navCatalogo); renderCatalog(); window.scrollTo(0,0); });
 
-    footerPrivacidad?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(null); renderPrivacidad(); window.scrollTo(0,0); });
-    footerTerminos?.addEventListener('click', (e) => { e.preventDefault(); setActiveNav(null); renderTerminos(); window.scrollTo(0,0); });
+    navOfertas.addEventListener('click', () => { history.pushState(null, '', '#ofertas'); setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
+    navRopaUsada.addEventListener('click', () => { history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
+    document.getElementById('footer-ropa-usada')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
 
-    document.getElementById('nav-contacto')?.addEventListener('click', () => renderContacto());
-    document.getElementById('footer-contacto')?.addEventListener('click', (e) => { e.preventDefault(); renderContacto(); window.scrollTo(0,0); });
-    document.getElementById('footer-devoluciones')?.addEventListener('click', (e) => { e.preventDefault(); renderDevoluciones(); window.scrollTo(0,0); });
+    footerPrivacidad?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#privacidad'); setActiveNav(null); renderPrivacidad(); window.scrollTo(0,0); });
+    footerTerminos?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#terminos'); setActiveNav(null); renderTerminos(); window.scrollTo(0,0); });
+
+    document.getElementById('nav-contacto')?.addEventListener('click', () => { history.pushState(null, '', '#contacto'); renderContacto(); });
+    document.getElementById('footer-contacto')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#contacto'); renderContacto(); window.scrollTo(0,0); });
+    document.getElementById('footer-devoluciones')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#devoluciones'); renderDevoluciones(); window.scrollTo(0,0); });
     document.getElementById('footer-admin')?.addEventListener('click', (e) => { e.preventDefault(); renderAdmin(); window.scrollTo(0,0); });
+
+    // Botón atrás/adelante del navegador
+    window.addEventListener('popstate', routeFromHash);
 
     // Cart Sidebar Toggles
     cartBtn.addEventListener('click', toggleCart);
@@ -188,20 +221,22 @@ function renderHome() {
     document.getElementById('btn-ver-catalogo').addEventListener('click', () => {
         searchQuery = '';
         currentCategory = 'All';
+        history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0,0);
     });
 
     document.getElementById('btn-banner-ofertas').addEventListener('click', () => {
-        searchQuery = 'oferta';
-        setActiveNav(navCatalogo);
-        renderCatalog();
+        history.pushState(null, '', '#ofertas');
+        setActiveNav(navOfertas);
+        renderOfertas();
         window.scrollTo(0,0);
     });
 
     document.getElementById('btn-banner-vendidos').addEventListener('click', () => {
         searchQuery = 'vendido';
+        history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0,0);
@@ -210,6 +245,7 @@ function renderHome() {
     document.getElementById('btn-ver-mas').addEventListener('click', () => {
         searchQuery = '';
         currentCategory = 'All';
+        history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0,0);
@@ -533,6 +569,8 @@ function renderProductDetail(productId) {
     `;
 
     document.getElementById('btn-back').addEventListener('click', () => {
+        history.pushState(null, '', '#catalogo');
+        setActiveNav(navCatalogo);
         renderCatalog();
     });
 
@@ -747,6 +785,7 @@ function renderGracias() {
     `;
 
     document.getElementById('btn-volver-catalogo-gracias').addEventListener('click', () => {
+        history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0,0);
@@ -774,6 +813,7 @@ function renderPagoRechazado() {
         window.scrollTo(0, 0);
     });
     document.getElementById('btn-volver-catalogo-rechazo').addEventListener('click', () => {
+        history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0, 0);
@@ -794,6 +834,7 @@ function renderPagoPendiente() {
         </div>
     `;
     document.getElementById('btn-volver-catalogo-pendiente').addEventListener('click', () => {
+        history.pushState(null, '', '#catalogo');
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0, 0);
@@ -971,7 +1012,9 @@ function generateProductCard(product) {
 function attachProductCardEvents() {
     document.querySelectorAll('.view-detail-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            renderProductDetail(e.currentTarget.getAttribute('data-id'));
+            const productId = e.currentTarget.getAttribute('data-id');
+            history.pushState(null, '', '#product/' + productId);
+            renderProductDetail(productId);
         });
     });
 
