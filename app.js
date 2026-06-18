@@ -148,9 +148,33 @@ function setActiveNav(element) {
     if(element) element.classList.add('active');
 }
 
+// --- SEO: Breadcrumb structured data ---
+const SITE_URL = 'https://latinoamericanaspa.com';
+
+function setBreadcrumb(crumbs) {
+    const existing = document.getElementById('ld-breadcrumb');
+    if (existing) existing.remove();
+    if (!crumbs || crumbs.length <= 1) return;
+    const script = document.createElement('script');
+    script.id = 'ld-breadcrumb';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: crumbs.map((c, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: c.name,
+            item: c.url
+        }))
+    });
+    document.head.appendChild(script);
+}
+
 // --- Routing / Views ---
 
 function renderHome() {
+    setBreadcrumb(null);
     appContainer.innerHTML = `
         <section class="banner-carousel-container">
             <div class="banner-carousel" id="promo-carousel">
@@ -393,6 +417,10 @@ function renderHome() {
 }
 
 function renderOfertas() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Ofertas', url: SITE_URL + '/#ofertas' }
+    ]);
     const ofertaProducts = products.filter(p => p.category === 'Packs & Combos');
 
     appContainer.innerHTML = `
@@ -416,6 +444,10 @@ function renderOfertas() {
 }
 
 function renderRopaUsada() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Ropa Usada', url: SITE_URL + '/#ropa-usada' }
+    ]);
     const categories = ['Todas', ...new Set(ropaUsada.map(p => p.category))];
     const sizes     = ['Todas', ...new Set(ropaUsada.map(p => p.size))];
     const genders   = ['Todos', ...new Set(ropaUsada.map(p => p.gender))];
@@ -540,8 +572,12 @@ function renderRopaUsada() {
 }
 
 function renderCatalog() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Catálogo', url: SITE_URL + '/#catalogo' }
+    ]);
     const categories = ['All', ...new Set(products.map(p => p.category))];
-    
+
     let filteredProducts = products;
     if (currentCategory !== 'All') {
         filteredProducts = products.filter(p => p.category === currentCategory);
@@ -641,6 +677,12 @@ function updateProductGrid() {
 function renderProductDetail(productId) {
     const product = products.find(p => p.id === productId);
     if(!product) return;
+
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Catálogo', url: SITE_URL + '/#catalogo' },
+        { name: product.name, url: SITE_URL + '/#producto/' + product.id }
+    ]);
 
     appContainer.innerHTML = `
         <a class="back-btn" id="btn-back">
@@ -938,6 +980,10 @@ function renderPagoPendiente() {
 }
 
 function renderContacto() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Contacto', url: SITE_URL + '/#contacto' }
+    ]);
     setActiveNav(null);
     document.querySelectorAll('.nav-header a').forEach(el => el.classList.remove('active'));
     const navC = document.getElementById('nav-contacto');
@@ -992,6 +1038,10 @@ function renderContacto() {
 }
 
 function renderDevoluciones() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Devoluciones', url: SITE_URL + '/#devoluciones' }
+    ]);
     setActiveNav(null);
     appContainer.innerHTML = `
         <div class="legal-content">
@@ -1036,6 +1086,10 @@ function renderDevoluciones() {
 }
 
 function renderPrivacidad() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Política de Privacidad', url: SITE_URL + '/#privacidad' }
+    ]);
     appContainer.innerHTML = `
         <div class="legal-content">
             <h1 style="text-align: center; margin-bottom: 40px; font-size: 2.5rem;">Políticas de Privacidad</h1>
@@ -1057,6 +1111,10 @@ function renderPrivacidad() {
 }
 
 function renderTerminos() {
+    setBreadcrumb([
+        { name: 'Inicio', url: SITE_URL + '/' },
+        { name: 'Términos y Condiciones', url: SITE_URL + '/#terminos' }
+    ]);
     appContainer.innerHTML = `
         <div class="legal-content">
             <h1 style="text-align: center; margin-bottom: 40px; font-size: 2.5rem;">Términos y Condiciones</h1>
