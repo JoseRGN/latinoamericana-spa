@@ -2392,10 +2392,10 @@ footer {
     .ru-hero { padding: 50px 24px; }
     .ru-hero h1 { font-size: 2.4rem; }
 
-    .ru-filters-bar { padding: 18px 16px; }
-    .ru-filter-group { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .ru-filters-bar { padding: 18px 16px; overflow: hidden; max-width: 100%; box-sizing: border-box; }
+    .ru-filter-group { flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; }
     .ru-filter-label { min-width: auto; }
-    .ru-filter-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; scrollbar-width: none; }
+    .ru-filter-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; scrollbar-width: none; width: 100%; }
     .ru-filter-pills::-webkit-scrollbar { display: none; }
     .ru-pill { flex-shrink: 0; }
 
