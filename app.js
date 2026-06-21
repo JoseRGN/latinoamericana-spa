@@ -878,6 +878,22 @@ function renderGracias() {
                 mp_payment_id: mpPaymentId
             })
         }).catch(err => console.error('Error guardando venta:', err));
+
+        // Enviar emails de confirmación al cliente y al negocio
+        fetch('/.netlify/functions/enviar-confirmacion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nro_pedido: orderNumber,
+                fecha: lastOrder.fecha,
+                nombre: lastOrder.nombre,
+                email: lastOrder.email,
+                telefono: lastOrder.telefono,
+                direccion: lastOrder.direccion,
+                productos: lastOrder.productos,
+                total: lastOrder.total
+            })
+        }).catch(err => console.error('Error enviando emails:', err));
     }
 
     // Limpiar carrito
