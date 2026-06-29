@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latinoamericana SpA — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1B5E4B;
+    --primary-light: #2E8B6B;
+    --accent: #C95A28;
+    --bg: #F5F3EE;
+    --bg-white: #FDFCF9;
+    --text: #1A1A2E;
+    --text-gray: #6B7280;
+    --border: rgba(27,94,75,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  /* ===== PAGE LAYOUT ===== */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 20px;
+    background: var(--bg-white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media print {
+    body { background: white; margin: 0; }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0;
+      page-break-after: always;
+      box-shadow: none;
+    }
+    .page:last-child { page-break-after: avoid; }
+    @page { size: A4; margin: 0; }
+  }
+
+  /* ===== COVER PAGE ===== */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    height: 297mm;
+    background: var(--bg-white);
+  }
+
+  .cover-header {
+    background: var(--primary);
+    padding: 18mm 18mm 14mm;
+    flex-shrink: 0;
+  }
+
+  .cover-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 20px;
+  }
+
+  .cover-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .cover-logo-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .cover-logo-circle img {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+  }
+
+  .cover-company {
+    color: rgba(255,255,255,0.7);
+    font-size: 13pt;
+    font-weight: 400;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .cover-title {
+    font-family: 'Fraunces', serif;
+    font-size: 38pt;
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: #F0B07A;
+  }
+
+  .cover-subtitle {
+    color: rgba(255,255,255,0.75);
+    font-size: 12pt;
+    font-weight: 400;
+    max-width: 130mm;
+  }
+
+  .cover-body {
+    flex: 1;
+    padding: 12mm 18mm;
+    display: flex;
+    flex-direction: column;
+    gap: 10mm;
+  }
+
+  .cover-intro {
+    font-size: 13pt;
+    color: var(--text);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .cover-intro strong {
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .kpi-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .kpi-number {
+    font-family: 'Fraunces', serif;
+    font-size: 28pt;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+    line-height: 1;
+  }
+
+  .kpi-label {
+    font-size: 8.5pt;
+    color: var(--text-gray);
+    font-weight: 500;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cover-screen-preview {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen-bar {
+    background: var(--primary);
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .screen-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .screen-nav-preview {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .screen-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 11pt;
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  .screen-nav-links {
+    display: flex;
+    gap: 14px;
+  }
+
+  .screen-link {
+    font-size: 8pt;
+    color: var(--text-gray);
+    font-weight: 500;
+  }
+
+  .screen-link.active {
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  .screen-hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    padding: 18px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .screen-hero-badge {
+    background: rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.9);
+    font-size: 7pt;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .screen-hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18pt;
+    color: white;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .screen-hero-sub {
+    font-size: 8.5pt;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 12px;
+  }
+
+  .screen-btn {
+    background: var(--accent);
+    color: white;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  .screen-products {
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    background: var(--bg-white);
+  }
+
+  .mini-card {
+    flex: 1;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 8px;
+    text-align: center;
+  }
+
+  .mini-card-img {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #e0f0eb, #c8e6de);
+    margin: 0 auto 4px;
+  }
+
+  .mini-card-name {
+    font-size: 7pt;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mini-card-price {
+    font-size: 7pt;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .cover-footer {
+    background: var(--primary);
+    padding: 10px 18mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .cover-footer-left {
+    color: rgba(255,255,255,0.7);
+    font-size: 8pt;
+  }
+
+  .cover-footer-right {
+    color: rgba(255,255,255,0.5);
+    font-size: 8pt;
+  }
+
+  /* ===== CONTENT PAGES ===== */
+  .content-page {
+    height: 297mm;
+    padding: 14mm 18mm;
+    display: flex;
+    flex-direction: column;
+    gap: 9mm;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+    flex-shrink: 0;
+  }
+
+  .page-header-title {
+    font-family: 'Fraunces', serif;
+    font-size: 8pt;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .page-number {
+    font-size: 8pt;
+    color: var(--text-gray);
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20pt;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .section-title span {
+    color: var(--primary);
+  }
+
+  .section-intro {
+    font-size: 10.5pt;
+    color: var(--text-gray);
+    line-height: 1.65;
+  }
+
+  /* ===== STACK PAGE ===== */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stack-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .stack-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .stack-card-body {}
+
+  .stack-card-title {
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .stack-card-desc {
+    font-size: 8.5pt;
+    color: var(--text-gray);
+    line-height: 1.5;
+  }
+
+  .stack-highlight {
+    background: var(--primary);
+    border-radius: 12px;
+    padding: 18px;
+    color: white;
+  }
+
+  .stack-highlight-title {
+    font-family: 'Fraunces', serif;
+    font-size: 13pt;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .stack-highlight-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stack-highlight-list li {
+    font-size: 9pt;
+    opacity: 0.9;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .stack-highlight-list li::before {
+    content: "→";
+    opacity: 0.6;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ===== FEATURES PAGE ===== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .feature-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--primary);
+  }
+
+  .feature-card.accent::before {
+    background: var(--accent);
+  }
+
+  .feature-title {
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .feature-desc {
+    font-size: 8.5pt;
+    color: var(--text-gray);
+    line-height: 1.5;
+  }
+
+  /* ===== CATALOG PAGE ===== */
+  .catalog-categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .cat-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .cat-name {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--primary);
+  }
+
+  .cat-count {
+    background: var(--primary);
+    color: white;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  .cat-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .cat-tag {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 7.5pt;
+    color: var(--text);
+    padding: 2px 7px;
+    font-weight: 500;
+  }
+
+  .cat-tag.badge {
+    background: #FFF3ED;
+    border-color: #F4C9A4;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .catalog-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .stat-mini {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat-mini-num {
+    font-family: 'Fraunces', serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+  }
+
+  .stat-mini-label {
+    font-size: 7.5pt;
+    color: var(--text-gray);
+    font-weight: 500;
+  }
+
+  /* ===== ARCHITECTURE PAGE ===== */
+  .arch-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .arch-layer {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+  }
+
+  .arch-layer-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .arch-layer-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .arch-layer-name {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--text);
+  }
+
+  .arch-layer-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .arch-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 8pt;
+    padding: 3px 9px;
+    color: var(--text);
+    font-weight: 500;
+    font-family: 'Plus Jakarta Sans', monospace;
+  }
+
+  .arch-item.highlight {
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .arch-arrow {
+    text-align: center;
+    font-size: 9pt;
+    color: var(--text-gray);
+    flex-shrink: 0;
+  }
+
+  /* ===== FLOW DIAGRAM ===== */
+  .flow-diagram {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .flow-title {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .flow-steps {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .flow-step {
+    flex: 1;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+
+  .flow-step-num {
+    font-family: 'Fraunces', serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+    line-height: 1;
+  }
+
+  .flow-step-name {
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 3px;
+  }
+
+  .flow-step-desc {
+    font-size: 7pt;
+    color: var(--text-gray);
+    margin-top: 2px;
+  }
+
+  .flow-arrow {
+    color: var(--primary);
+    font-size: 12pt;
+    flex-shrink: 0;
+  }
+
+  /* ===== LAST PAGE ===== */
+  .last-page {
+    height: 297mm;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .last-top {
+    background: var(--primary);
+    padding: 12mm 18mm 10mm;
+    flex-shrink: 0;
+  }
+
+  .last-top-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26pt;
+    font-weight: 800;
+    color: white;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .last-top-title em {
+    color: #F0B07A;
+    font-style: italic;
+  }
+
+  .last-top-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 10.5pt;
+  }
+
+  .last-body {
+    flex: 1;
+    padding: 10mm 18mm;
+    display: flex;
+    flex-direction: column;
+    gap: 8mm;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .result-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .result-icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .result-title {
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .result-desc {
+    font-size: 8pt;
+    color: var(--text-gray);
+    line-height: 1.5;
+  }
+
+  .contact-section {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+
+  .contact-title {
+    font-family: 'Fraunces', serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .contact-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    font-size: 8pt;
+    color: var(--text-gray);
+    font-weight: 500;
+  }
+
+  .contact-value {
+    font-size: 9pt;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .last-footer {
+    background: var(--primary);
+    padding: 8px 18mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+
+  .last-footer-text {
+    color: rgba(255,255,255,0.6);
+    font-size: 7.5pt;
+  }
+
+  .last-footer-brand {
+    color: rgba(255,255,255,0.9);
+    font-family: 'Fraunces', serif;
+    font-size: 10pt;
+    font-weight: 700;
+  }
+
+  /* ===== UTILITIES ===== */
+  .divider {
+    height: 1px;
+    background: var(--border);
+  }
+
+  .badge-accent {
+    display: inline-block;
+    background: #FFF3ED;
+    color: var(--accent);
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 10px;
+    border: 1px solid #F4C9A4;
+    margin-right: 4px;
+  }
+
+  .badge-primary {
+    display: inline-block;
+    background: #EBF5F1;
+    color: var(--primary);
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 10px;
+    border: 1px solid #B6D9CE;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================= PAGE 1: PORTADA ============================= -->
+<div class="page">
+  <div class="cover">
+
+    <div class="cover-header">
+      <div class="cover-tag">Proyecto Web · E-Commerce · 2025</div>
+
+      <div class="cover-logo-area">
+        <div class="cover-logo-circle">
+          <img src="Documentos del negocio/Logo - Latinoamericana.webp" alt="Logo Latinoamericana">
+        </div>
+        <div class="cover-company">Latinoamericana SpA</div>
+      </div>
+
+      <div class="cover-title">
+        Tienda<br><em>Online</em><br>Completa
+      </div>
+      <div class="cover-subtitle">
+        E-commerce estático de alto rendimiento para distribución de productos de cuidado personal y del hogar.
+      </div>
+    </div>
+
+    <div class="cover-body">
+      <p class="cover-intro">
+        Desarrollé desde cero una <strong>tienda e-commerce funcional</strong> para Latinoamericana SpA, empresa chilena distribuidora de productos esenciales. La solución corre íntegramente en el navegador, sin servidor ni base de datos, y convierte el carrito en un pedido por <strong>WhatsApp</strong> con un solo clic.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-number">28</span>
+          <div class="kpi-label">Productos en catálogo</div>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">4</span>
+          <div class="kpi-label">Categorías</div>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-number">0</span>
+          <div class="kpi-label">Dependencias runtime</div>
+        </div>
+      </div>
+
+      <!-- Mockup navegador -->
+      <div class="cover-screen-preview">
+        <div class="screen-bar">
+          <div class="screen-dot" style="background:#FF5F57"></div>
+          <div class="screen-dot" style="background:#FFBD2E"></div>
+          <div class="screen-dot" style="background:#28CA41"></div>
+        </div>
+        <div class="screen-nav-preview">
+          <div class="screen-brand">Latinoamericana</div>
+          <div class="screen-nav-links">
+            <span class="screen-link active">Inicio</span>
+            <span class="screen-link">Catálogo</span>
+            <span class="screen-link">Ofertas</span>
+            <span class="screen-link">Ropa Usada</span>
+          </div>
+        </div>
+        <div class="screen-hero">
+          <div class="screen-hero-badge">PRODUCTOS DEL HOGAR · CHILE</div>
+          <div class="screen-hero-title">Todo lo que<br>necesitas, siempre<br>al mejor precio</div>
+          <div class="screen-hero-sub">Entrega directa · Pago por WhatsApp</div>
+          <div class="screen-btn">Ver Catálogo →</div>
+        </div>
+        <div class="screen-products">
+          <div class="mini-card">
+            <div class="mini-card-img"></div>
+            <div class="mini-card-name">Shampoo</div>
+            <div class="mini-card-price">$3.500</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-img" style="background:linear-gradient(135deg,#fde8d8,#f5c4a0)"></div>
+            <div class="mini-card-name">Detergente</div>
+            <div class="mini-card-price">$2.000</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-img" style="background:linear-gradient(135deg,#e8f4fd,#b8d9f5)"></div>
+            <div class="mini-card-name">P. Higiénico</div>
+            <div class="mini-card-price">$4.000</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-img" style="background:linear-gradient(135deg,#f3e8fd,#d8b8f5)"></div>
+            <div class="mini-card-name">Kit Limpieza</div>
+            <div class="mini-card-price">$8.390</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <span class="cover-footer-left">Desarrollado por Jose · jose@digitals.cl</span>
+      <span class="cover-footer-right">Junio 2025</span>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 2: STACK & ARQUITECTURA ============================= -->
+<div class="page">
+  <div class="content-page">
+
+    <div class="page-header">
+      <span class="page-header-title">Stack Técnico</span>
+      <span class="page-number">02 / 04</span>
+    </div>
+
+    <div>
+      <div class="section-title">Tecnología <span>sin fricción</span></div>
+      <p class="section-intro" style="margin-top:6px;">
+        La decisión de construir sin frameworks fue intencional: máximo rendimiento, cero tiempo de build, deploy instantáneo en cualquier hosting estático.
+      </p>
+    </div>
+
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="stack-icon">🌐</div>
+        <div class="stack-card-body">
+          <div class="stack-card-title">HTML5 Semántico</div>
+          <div class="stack-card-desc">Shell del SPA en un único <code>index.html</code>. Estructura accesible con roles ARIA y skip-links.</div>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">🎨</div>
+        <div class="stack-card-body">
+          <div class="stack-card-title">CSS Variables + Custom Design System</div>
+          <div class="stack-card-desc">Paleta "Botanical Warmth" (verde bosque + terracota) definida en <code>:root</code>. Sin frameworks CSS.</div>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">⚡</div>
+        <div class="stack-card-body">
+          <div class="stack-card-title">JavaScript Vanilla ES6+</div>
+          <div class="stack-card-desc">SPA completa con hash routing, renderizado dinámico, manejo de estado y persistencia en localStorage.</div>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">💾</div>
+        <div class="stack-card-body">
+          <div class="stack-card-title">localStorage</div>
+          <div class="stack-card-desc">Carrito y pedidos persistidos bajo la clave <code>latinoamericana_orders</code>. Sin backend, sin cookies.</div>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">✒️</div>
+        <div class="stack-card-body">
+          <div class="stack-card-title">Google Fonts</div>
+          <div class="stack-card-desc">Fraunces (display serif) + Plus Jakarta Sans (texto). Tipografía editorial con alta legibilidad.</div>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">📦</div>
+        <div class="stack-card-body">
+          <div class="stack-card-title">Font Awesome 6.4</div>
+          <div class="stack-card-desc">Íconos vía CDN para carrito, navegación, redes sociales y acciones del usuario.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-highlight">
+      <div class="stack-highlight-title">¿Por qué no React, Vue o Next.js?</div>
+      <ul class="stack-highlight-list">
+        <li>Carga instantánea — no hay bundle JS de 100–400 KB que parsear antes del primer render</li>
+        <li>Deploy con un simple <code>git push</code> a GitHub Pages, Netlify o cualquier CDN</li>
+        <li>Sin dependencias que actualizar, sin vulnerabilidades en <code>node_modules</code></li>
+        <li>El cliente objetivo no necesita SSR, autenticación compleja ni estado distribuido</li>
+      </ul>
+    </div>
+
+    <!-- Arquitectura de archivos -->
+    <div>
+      <div style="font-weight:700;font-size:11pt;color:var(--text);margin-bottom:8px;">Estructura de archivos</div>
+      <div class="arch-container">
+        <div class="arch-layer">
+          <div class="arch-layer-header">
+            <div class="arch-layer-dot" style="background:#1B5E4B"></div>
+            <div class="arch-layer-name">Presentación</div>
+          </div>
+          <div class="arch-layer-items">
+            <span class="arch-item highlight">index.html</span>
+            <span class="arch-item highlight">ecommerce-styles.css</span>
+            <span class="arch-item">imagenes_productos/</span>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <div class="arch-layer-header">
+            <div class="arch-layer-dot" style="background:#C95A28"></div>
+            <div class="arch-layer-name">Lógica de aplicación</div>
+          </div>
+          <div class="arch-layer-items">
+            <span class="arch-item highlight">app.js</span>
+            <span class="arch-item">routing</span>
+            <span class="arch-item">carrito</span>
+            <span class="arch-item">renderizado</span>
+            <span class="arch-item">checkout WhatsApp</span>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <div class="arch-layer-header">
+            <div class="arch-layer-dot" style="background:#F0A500"></div>
+            <div class="arch-layer-name">Datos</div>
+          </div>
+          <div class="arch-layer-items">
+            <span class="arch-item highlight">products.js</span>
+            <span class="arch-item">localStorage</span>
+            <span class="arch-item">28 productos definidos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 3: FUNCIONALIDADES & CATÁLOGO ============================= -->
+<div class="page">
+  <div class="content-page">
+
+    <div class="page-header">
+      <span class="page-header-title">Funcionalidades & Catálogo</span>
+      <span class="page-number">03 / 04</span>
+    </div>
+
+    <div>
+      <div class="section-title">Funcionalidades <span>principales</span></div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-title">🛒 Carrito de compras</div>
+        <div class="feature-desc">Sidebar animado con añadir/remover productos, contador en tiempo real y total acumulado. Persiste al recargar la página.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">💬 Checkout por WhatsApp</div>
+        <div class="feature-desc">El carrito genera un mensaje estructurado con nombre, cantidad y precio de cada ítem, listo para enviar al número de la empresa.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">🔍 Búsqueda en tiempo real</div>
+        <div class="feature-desc">Header expandible con campo de búsqueda que filtra el catálogo instantáneamente mientras el usuario escribe.</div>
+      </div>
+      <div class="feature-card accent">
+        <div class="feature-title">🗂️ Filtros y ordenamiento</div>
+        <div class="feature-desc">Filtro por categoría, búsqueda por texto y ordenamiento por precio (ascendente / descendente) con UI responsiva.</div>
+      </div>
+      <div class="feature-card accent">
+        <div class="feature-title">📸 Carrusel de banners</div>
+        <div class="feature-desc">Carrusel hero con slides para Inicio, Ropa Usada y Packs & Combos. Navegación con botones e indicadores.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">🧩 Packs & Combos</div>
+        <div class="feature-desc">Categoría especial de kits con descuento aplicado. La card detalla cada producto incluido con badge de ahorro.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">📄 Hash Routing (SPA)</div>
+        <div class="feature-desc">Navegación sin recarga entre 8 vistas: Inicio, Catálogo, Ofertas, Ropa Usada, Detalle, Contacto, Admin y páginas legales.</div>
+      </div>
+      <div class="feature-card accent">
+        <div class="feature-title">🔧 Panel Admin</div>
+        <div class="feature-desc">Vista de pedidos guardados en localStorage. Permite revisar el historial de órdenes sin backend ni autenticación.</div>
+      </div>
+    </div>
+
+    <!-- Catálogo -->
+    <div>
+      <div style="font-weight:700;font-size:11pt;color:var(--text);margin-bottom:8px;">Catálogo de productos</div>
+      <div class="catalog-stats" style="margin-bottom:8px;">
+        <div class="stat-mini"><span class="stat-mini-num">10</span><div class="stat-mini-label">Cuidado Personal</div></div>
+        <div class="stat-mini"><span class="stat-mini-num">8</span><div class="stat-mini-label">Limpieza Hogar</div></div>
+        <div class="stat-mini"><span class="stat-mini-num">7</span><div class="stat-mini-label">Aseo y Desechables</div></div>
+        <div class="stat-mini"><span class="stat-mini-num">3</span><div class="stat-mini-label">Packs & Combos</div></div>
+      </div>
+      <div class="catalog-categories">
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">🧴 Cuidado Personal</span>
+            <span class="cat-count">10</span>
+          </div>
+          <div class="cat-products">
+            <span class="cat-tag">Acondicionador</span>
+            <span class="cat-tag badge">🔥 Shampoo</span>
+            <span class="cat-tag badge">⭐ Pasta dental</span>
+            <span class="cat-tag">Jabón de baño</span>
+            <span class="cat-tag">Cepillo dental</span>
+            <span class="cat-tag">Enjuague bucal</span>
+            <span class="cat-tag">Desodorante</span>
+            <span class="cat-tag">Espuma afeitar</span>
+            <span class="cat-tag">Afeitadora</span>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">🧹 Productos de Limpieza</span>
+            <span class="cat-count">8</span>
+          </div>
+          <div class="cat-products">
+            <span class="cat-tag badge">🔥 Lavaloza</span>
+            <span class="cat-tag badge">⭐ Detergente</span>
+            <span class="cat-tag">Suavizante</span>
+            <span class="cat-tag">Cloro</span>
+            <span class="cat-tag">Aromatizante</span>
+            <span class="cat-tag">Trapero húmedo</span>
+            <span class="cat-tag">Escobillón</span>
+            <span class="cat-tag">Mopa</span>
+            <span class="cat-tag">Desinfectante</span>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">🧻 Aseo y Desechables</span>
+            <span class="cat-count">7</span>
+          </div>
+          <div class="cat-products">
+            <span class="cat-tag badge">🔥 Papel higiénico</span>
+            <span class="cat-tag">Bolsas de basura</span>
+            <span class="cat-tag">Servilletas</span>
+            <span class="cat-tag">Toallón</span>
+            <span class="cat-tag">Pañales</span>
+            <span class="cat-tag">Toallas húmedas bebé</span>
+            <span class="cat-tag">Toalla sanitaria</span>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">📦 Packs & Combos</span>
+            <span class="cat-count">3</span>
+          </div>
+          <div class="cat-products">
+            <span class="cat-tag">Kit Básico Limpieza</span>
+            <span class="cat-tag badge">⭐ Kit Limpieza Completo</span>
+            <span class="cat-tag">Kit Premium Aseo Hogar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ============================= PAGE 4: RESULTADOS & CONTACTO ============================= -->
+<div class="page">
+  <div class="last-page">
+
+    <div class="last-top">
+      <div class="last-top-title">Una tienda<br><em>completa,</em> lista<br>para vender.</div>
+      <div class="last-top-sub">Sin costos de servidor · Sin mantenimiento · Sin dependencias</div>
+    </div>
+
+    <div class="last-body">
+
+      <!-- Flujo de compra -->
+      <div class="flow-diagram">
+        <div class="flow-title">Flujo de compra del cliente</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <span class="flow-step-num">1</span>
+            <div class="flow-step-name">Explorar</div>
+            <div class="flow-step-desc">Navega catálogo con filtros y búsqueda</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <span class="flow-step-num">2</span>
+            <div class="flow-step-name">Agregar</div>
+            <div class="flow-step-desc">Añade productos al carrito sidebar</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <span class="flow-step-num">3</span>
+            <div class="flow-step-name">Revisar</div>
+            <div class="flow-step-desc">Confirma cantidades y total</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <span class="flow-step-num">4</span>
+            <div class="flow-step-name">Pedir</div>
+            <div class="flow-step-desc">Envía pedido por WhatsApp</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div>
+        <div style="font-weight:700;font-size:11pt;color:var(--text);margin-bottom:8px;">Lo que se entregó</div>
+        <div class="results-grid">
+          <div class="result-card">
+            <span class="result-icon">⚡</span>
+            <div class="result-title">Rendimiento máximo</div>
+            <div class="result-desc">Sin bundle JS, sin parseo inicial. La tienda carga en menos de 1 segundo en cualquier conexión.</div>
+          </div>
+          <div class="result-card">
+            <span class="result-icon">📱</span>
+            <div class="result-title">100% responsiva</div>
+            <div class="result-desc">Diseño adaptado a móvil, tablet y desktop. El flujo de WhatsApp es natural en smartphones.</div>
+          </div>
+          <div class="result-card">
+            <span class="result-icon">🚀</span>
+            <div class="result-title">Deploy inmediato</div>
+            <div class="result-desc">Archivos estáticos: desplegable en GitHub Pages, Netlify o cualquier hosting en minutos.</div>
+          </div>
+          <div class="result-card">
+            <span class="result-icon">♿</span>
+            <div class="result-title">Accesibilidad</div>
+            <div class="result-desc">Skip-links, roles ARIA, navegación por teclado y contraste de color optimizado.</div>
+          </div>
+          <div class="result-card">
+            <span class="result-icon">🔒</span>
+            <div class="result-title">Sin riesgos</div>
+            <div class="result-desc">Cero dependencias en runtime: ningún <code>npm audit</code> que gestionar, ninguna librería desactualizada.</div>
+          </div>
+          <div class="result-card">
+            <span class="result-icon">🛍️</span>
+            <div class="result-title">Canal de venta activo</div>
+            <div class="result-desc">El checkout por WhatsApp conecta directamente con el equipo de ventas, sin pasarela ni comisiones.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contacto -->
+      <div class="contact-section">
+        <div class="contact-title">¿Quieres un proyecto similar?</div>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <div class="contact-dot"></div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">jose@digitals.cl</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-dot"></div>
+            <div>
+              <div class="contact-label">Empresa cliente</div>
+              <div class="contact-value">Latinoamericana SpA</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-dot"></div>
+            <div>
+              <div class="contact-label">Tipo de proyecto</div>
+              <div class="contact-value">E-Commerce Estático</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-dot"></div>
+            <div>
+              <div class="contact-label">País</div>
+              <div class="contact-value">Chile 🇨🇱</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="last-footer">
+      <span class="last-footer-text">Desarrollado por Jose · jose@digitals.cl · 2025</span>
+      <span class="last-footer-brand">Latinoamericana SpA</span>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
