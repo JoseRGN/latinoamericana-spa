@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Latinoamericana SpA</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W459HGDW');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9WKDWLST8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E9WKDWLST8');
+    </script>
+    <!-- Favicon (placeholder) -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700&display=swap">
+    <link rel="stylesheet" href="ecommerce-styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W459HGDW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <a href="#app-container" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- Header -->
+    <header class="header-container">
+        <div class="page-inner">
+            <div class="top-header">
+                <div class="logo-wrapper" style="cursor: pointer; display: flex; align-items: center; gap: 15px;" id="logo-btn">
+                    <div class="logo-cropped" title="Logo Latinoamericana SpA"></div>
+                    <span class="logo-text">LATINOAMERICANA SpA</span>
+                </div>
+                
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <div class="header-search" id="header-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass header-search-icon"></i>
+                        <input type="text" id="header-search-input" class="header-search-input" placeholder="Buscar productos..." autocomplete="off">
+                    </div>
+                    <div class="cart-icon-container" id="cart-btn" role="button" aria-label="Abrir carrito de compras">
+                        <i class="fa-solid fa-cart-shopping" style="color: var(--primary); font-size: 1.2rem;" aria-hidden="true"></i>
+                        <span class="cart-label" style="font-weight: 600;">Mi Carrito</span>
+                        <span class="cart-count" id="cart-count" aria-live="polite" aria-label="artículos en el carrito">0</span>
+                    </div>
+                    <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="main-nav">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+            <nav class="nav-header" id="main-nav" aria-label="Navegación principal">
+                <a class="active" id="nav-inicio">Inicio</a>
+                <a id="nav-catalogo">Catálogo de Productos</a>
+                <a id="nav-ofertas">🔥 Ofertas</a>
+                <!-- <a id="nav-ropa-usada">👗 Ropa Usada</a> -->
+                <a id="nav-contacto" style="cursor:pointer;">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main class="page-inner" id="app-container" tabindex="-1">
+        <!-- Content injected by app.js -->
+    </main>
+
+    <!-- Shopping Cart Sidebar (Overlay) -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart" id="close-cart-btn" aria-label="Cerrar carrito"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Cart items injected here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="btn btn-accent" id="checkout-btn">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="contacto">
+        <div class="page-inner">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="logo-wrapper" style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                        <div class="logo-cropped footer-logo-img" style="width: 44px; height: 44px;"></div>
+                        <span class="logo-text" style="color: white; font-size: 1.05rem; letter-spacing: 1.5px;">LATINOAMERICANA SpA</span>
+                    </div>
+                    <p style="color: #a0a0b0; text-align: justify;">Soluciones de limpieza, higiene y cuidado personal de la más alta calidad.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#" id="footer-inicio">Inicio</a></li>
+                        <li><a href="#" id="footer-catalogo">Catálogo</a></li>
+                        <!-- <li><a href="#" id="footer-ropa-usada">👗 Ropa Usada</a></li> -->
+                        <li><a href="#" id="footer-contacto">Contacto</a></li>
+                        <li><a href="#" id="footer-devoluciones">Devoluciones</a></li>
+                        <li><a href="#" id="footer-privacidad">Políticas de Privacidad</a></li>
+                        <li><a href="#" id="footer-terminos">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto</h3>
+                    <p>&#9742; <a href="tel:+5699999999" style="color:#a0a0b0; text-decoration:none;">+56 9 9999 9999</a></p>
+                    <p>&#9993; <a href="mailto:consultalatinoamericana@gmail.com" style="color:#a0a0b0; text-decoration:none;">consultalatinoamericana@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Latinoamericana SpA. Todos los derechos reservados. &nbsp;|&nbsp;
+                   <a href="https://gueregrove.com" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.3);font-size:0.78rem;text-decoration:none;">GuereGrove Agency</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="products.js"></script>
+    <script src="ropa-usada.js"></script>
+    <script src="app.js"></script>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/5699999999" class="whatsapp-float" target="_blank" title="Contáctanos por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Mobile nav toggle -->
+    <script>
+        (function () {
+            var btn = document.getElementById('hamburger-btn');
+            var nav = document.getElementById('main-nav');
+            if (!btn || !nav) return;
+            btn.addEventListener('click', function () {
+                var isOpen = nav.classList.toggle('open');
+                btn.classList.toggle('open');
+                btn.setAttribute('aria-expanded', isOpen);
+                btn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+            });
+            nav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    nav.classList.remove('open');
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.setAttribute('aria-label', 'Abrir menú de navegación');
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
