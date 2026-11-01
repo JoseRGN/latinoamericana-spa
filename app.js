@@ -83,21 +83,21 @@ function init() {
 
 // --- Event Listeners ---
 function setupEventListeners() {
-    navInicio.addEventListener('click', () => { history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); });
+    navInicio.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); });
     logoBtn.addEventListener('click', () => { history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); });
     footerInicio.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#home'); setActiveNav(navInicio); renderHome(); window.scrollTo(0,0); });
 
-    navCatalogo.addEventListener('click', () => { history.pushState(null, '', '#catalogo'); setActiveNav(navCatalogo); renderCatalog(); });
+    navCatalogo.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#catalogo'); setActiveNav(navCatalogo); renderCatalog(); });
     footerCatalogo.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#catalogo'); setActiveNav(navCatalogo); renderCatalog(); window.scrollTo(0,0); });
 
-    navOfertas.addEventListener('click', () => { history.pushState(null, '', '#ofertas'); setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
-    navRopaUsada?.addEventListener('click', () => { history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
+    navOfertas.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#ofertas'); setActiveNav(navOfertas); renderOfertas(); window.scrollTo(0,0); });
+    navRopaUsada?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
     document.getElementById('footer-ropa-usada')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#ropa-usada'); setActiveNav(navRopaUsada); renderRopaUsada(); window.scrollTo(0,0); });
 
     footerPrivacidad?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#privacidad'); setActiveNav(null); renderPrivacidad(); window.scrollTo(0,0); });
     footerTerminos?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#terminos'); setActiveNav(null); renderTerminos(); window.scrollTo(0,0); });
 
-    document.getElementById('nav-contacto')?.addEventListener('click', () => { history.pushState(null, '', '#contacto'); renderContacto(); });
+    document.getElementById('nav-contacto')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#contacto'); renderContacto(); });
     document.getElementById('footer-contacto')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#contacto'); renderContacto(); window.scrollTo(0,0); });
     document.getElementById('footer-devoluciones')?.addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, '', '#devoluciones'); renderDevoluciones(); window.scrollTo(0,0); });
     document.getElementById('footer-admin')?.addEventListener('click', (e) => { e.preventDefault(); renderAdmin(); window.scrollTo(0,0); });
@@ -151,6 +151,10 @@ function setActiveNav(element) {
 // --- SEO: Breadcrumb structured data ---
 const SITE_URL = 'https://latinoamericanaspa.com';
 
+function setPageTitle(title) {
+    document.title = title;
+}
+
 function setBreadcrumb(crumbs) {
     const existing = document.getElementById('ld-breadcrumb');
     if (existing) existing.remove();
@@ -174,11 +178,12 @@ function setBreadcrumb(crumbs) {
 // --- Routing / Views ---
 
 function renderHome() {
+    setPageTitle('Latinoamericana SpA | Limpieza, higiene y hogar con despacho a todo Chile');
     setBreadcrumb(null);
     appContainer.innerHTML = `
         <section class="banner-carousel-container">
             <div class="banner-carousel" id="promo-carousel">
-                <div class="promo-banner promo-oferta slide active" style="background-image: url('imagenes_productos/banner-ofertas.png');">
+                <div class="promo-banner promo-oferta slide active">
                     <div class="banner-overlay"></div>
                     <div class="banner-content">
                         <h2>¡Ofertas Especiales!</h2>
@@ -186,7 +191,7 @@ function renderHome() {
                         <button class="btn btn-accent" id="btn-banner-ofertas">Ver Ofertas <i class="fa-solid fa-tags" style="margin-left: 8px;"></i></button>
                     </div>
                 </div>
-                <div class="promo-banner promo-vendido slide" style="background-image: url('imagenes_productos/banner-vendidos.png');">
+                <div class="promo-banner promo-vendido slide">
                     <div class="banner-overlay"></div>
                     <div class="banner-content">
                         <h2>Los Más Vendidos</h2>
@@ -253,7 +258,7 @@ function renderHome() {
                 ${products.filter(p => p.category === 'Packs & Combos').map(pack => `
                     <div class="pack-home-card">
                         <div class="pack-home-image">
-                            <img src="${pack.image}" alt="${pack.name}">
+                            <img src="${pack.image}" alt="${pack.name}" width="400" height="400" loading="lazy" decoding="async">
                             ${pack.badge ? `<span class="pack-home-badge">${pack.badge}</span>` : ''}
                         </div>
                         <div class="pack-home-body">
@@ -417,6 +422,7 @@ function renderHome() {
 }
 
 function renderOfertas() {
+    setPageTitle('Ofertas de aseo y hogar | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Ofertas', url: SITE_URL + '/#ofertas' }
@@ -444,6 +450,7 @@ function renderOfertas() {
 }
 
 function renderRopaUsada() {
+    setPageTitle('Ropa usada | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Ropa Usada', url: SITE_URL + '/#ropa-usada' }
@@ -476,7 +483,7 @@ function renderRopaUsada() {
         return `
             <div class="ru-card">
                 <div class="ru-image">
-                    <img src="${item.image}" alt="${item.name}" onerror="this.style.opacity='0'">
+                    <img src="${item.image}" alt="${item.name}" width="400" height="400" loading="lazy" decoding="async" onerror="this.style.opacity='0'">
                     <span class="ru-size-tag">Talla ${item.size}</span>
                     <span class="ru-condition ${condClass(item.condition)}">${item.condition}</span>
                 </div>
@@ -572,6 +579,7 @@ function renderRopaUsada() {
 }
 
 function renderCatalog() {
+    setPageTitle('Catálogo de productos de limpieza e higiene | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Catálogo', url: SITE_URL + '/#catalogo' }
@@ -676,12 +684,16 @@ function updateProductGrid() {
 
 function renderProductDetail(productId) {
     const product = products.find(p => p.id === productId);
-    if(!product) return;
+    if(!product) {
+        setPageTitle('Producto no encontrado | Latinoamericana SpA');
+        return;
+    }
 
+    setPageTitle(product.name + ' | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Catálogo', url: SITE_URL + '/#catalogo' },
-        { name: product.name, url: SITE_URL + '/#producto/' + product.id }
+        { name: product.name, url: SITE_URL + '/#product/' + product.id }
     ]);
 
     appContainer.innerHTML = `
@@ -690,7 +702,7 @@ function renderProductDetail(productId) {
         </a>
         <div class="product-detail">
             <div class="product-detail-image">
-                <img src="${product.image}" alt="${product.name}">
+                <img src="${product.image}" alt="${product.name}" width="400" height="400" decoding="async">
             </div>
             <div class="product-detail-info">
                 <span class="category-tag" style="position: relative; display: inline-block; top: 0; left: 0; margin-bottom: 15px;">${product.category}</span>
@@ -720,6 +732,7 @@ function renderProductDetail(productId) {
 }
 
 function renderCheckout() {
+    setPageTitle('Finalizar compra | Latinoamericana SpA');
     let orderSummaryHtml = cart.map(item => `
         <div class="order-item-summary">
             <div>
@@ -842,6 +855,7 @@ function renderCheckout() {
 }
 
 function renderGracias() {
+    setPageTitle('Compra confirmada | Latinoamericana SpA');
     const orderNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
 
     // Extraer payment_id que Mercado Pago añade a la URL de retorno
@@ -947,6 +961,7 @@ function renderGracias() {
 }
 
 function renderPagoRechazado() {
+    setPageTitle('Pago no procesado | Latinoamericana SpA');
     appContainer.innerHTML = `
         <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
             <i class="fa-solid fa-circle-xmark" style="font-size: 5rem; color: #e53e3e; margin-bottom: 20px;"></i>
@@ -975,6 +990,7 @@ function renderPagoRechazado() {
 }
 
 function renderPagoPendiente() {
+    setPageTitle('Pago en revisión | Latinoamericana SpA');
     appContainer.innerHTML = `
         <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
             <i class="fa-solid fa-clock" style="font-size: 5rem; color: #d69e2e; margin-bottom: 20px;"></i>
@@ -996,6 +1012,7 @@ function renderPagoPendiente() {
 }
 
 function renderContacto() {
+    setPageTitle('Contacto y horario de atención | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Contacto', url: SITE_URL + '/#contacto' }
@@ -1016,7 +1033,7 @@ function renderContacto() {
                 <div class="contact-card">
                     <div class="contact-card-icon"><i class="fa-brands fa-whatsapp"></i></div>
                     <h3>WhatsApp</h3>
-                    <p>Lunes a Sábado<br>9:00 – 18:00 hrs</p>
+                    <p>Miércoles a domingo<br>8:00 – 20:00 hrs</p>
                     <a href="https://wa.me/5699999999" target="_blank" rel="noopener"
                        style="display:inline-block;margin-top:12px;color:var(--primary);font-weight:700;">
                         +56 9 9999 9999 →
@@ -1035,8 +1052,7 @@ function renderContacto() {
                 <div class="contact-card">
                     <div class="contact-card-icon"><i class="fa-solid fa-clock"></i></div>
                     <h3>Horario de Atención</h3>
-                    <p>Lunes a Viernes<br>9:00 – 18:00 hrs</p>
-                    <p style="margin-top:8px;">Sábado<br>9:00 – 13:00 hrs</p>
+                    <p>Miércoles a domingo<br>8:00 – 20:00 hrs</p>
                 </div>
             </div>
 
@@ -1054,6 +1070,7 @@ function renderContacto() {
 }
 
 function renderDevoluciones() {
+    setPageTitle('Política de devoluciones | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Devoluciones', url: SITE_URL + '/#devoluciones' }
@@ -1102,6 +1119,7 @@ function renderDevoluciones() {
 }
 
 function renderPrivacidad() {
+    setPageTitle('Política de privacidad | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Política de Privacidad', url: SITE_URL + '/#privacidad' }
@@ -1127,6 +1145,7 @@ function renderPrivacidad() {
 }
 
 function renderTerminos() {
+    setPageTitle('Términos y condiciones | Latinoamericana SpA');
     setBreadcrumb([
         { name: 'Inicio', url: SITE_URL + '/' },
         { name: 'Términos y Condiciones', url: SITE_URL + '/#terminos' }
@@ -1162,7 +1181,7 @@ function generateProductCard(product) {
             <div class="image-wrapper">
                 ${badgeHtml}
                 <span class="category-tag">${product.category}</span>
-                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <img src="${product.image}" alt="${product.name}" class="product-image" width="400" height="400" loading="lazy" decoding="async">
             </div>
             <div class="product-info">
                 <h3 class="product-title">${product.name}</h3>
@@ -1269,7 +1288,7 @@ function updateCartUI() {
         totalCost += item.price * item.quantity;
         cartHtml += `
             <div class="cart-item">
-                <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-img" width="400" height="400" decoding="async">
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
                     <p>${formatPrice(item.price)}</p>
@@ -1374,6 +1393,7 @@ function exportOrdersToCSV() {
 }
 
 function renderAdmin() {
+    setPageTitle('Registro de pedidos | Latinoamericana SpA');
     const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
     setActiveNav(null);
 

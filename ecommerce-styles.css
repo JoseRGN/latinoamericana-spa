@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,500;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
-
 :root {
     /* Botanical Warmth — forest green + terracotta */
     --primary: #1B5E4B;
@@ -520,6 +518,31 @@ main.page-inner {
 .promo-banner.slide.active {
     opacity: 1;
     z-index: 10;
+}
+
+/* Banners pesados: WebP y, si el navegador no lo entiende, JPEG. */
+.promo-banner.promo-oferta {
+    background-image: url('imagenes_productos/banner-ofertas.jpg');
+    background-image: -webkit-image-set(
+        url('imagenes_productos/banner-ofertas.webp') type('image/webp'),
+        url('imagenes_productos/banner-ofertas.jpg') type('image/jpeg')
+    );
+    background-image: image-set(
+        url('imagenes_productos/banner-ofertas.webp') type('image/webp'),
+        url('imagenes_productos/banner-ofertas.jpg') type('image/jpeg')
+    );
+}
+
+.promo-banner.promo-vendido {
+    background-image: url('imagenes_productos/banner-vendidos.jpg');
+    background-image: -webkit-image-set(
+        url('imagenes_productos/banner-vendidos.webp') type('image/webp'),
+        url('imagenes_productos/banner-vendidos.jpg') type('image/jpeg')
+    );
+    background-image: image-set(
+        url('imagenes_productos/banner-vendidos.webp') type('image/webp'),
+        url('imagenes_productos/banner-vendidos.jpg') type('image/jpeg')
+    );
 }
 
 .banner-overlay {
@@ -1664,7 +1687,7 @@ footer {
     .checkout-grid { grid-template-columns: 1fr; }
 
     .promo-banner.slide {
-        padding: 0 20px;
+        padding: 16px 52px 42px;
         text-align: center;
         justify-content: center;
     }
