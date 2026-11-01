@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
 
+# Material interno que se publica junto al sitio y no debe indexarse
+Disallow: /Documentos del negocio/
+Disallow: /Documentos%20del%20negocio/
+Disallow: /LATINOAMERICANA SPA/
+Disallow: /LATINOAMERICANA%20SPA/
+Disallow: /netlify/
+Disallow: /api/
+Disallow: /scripts/
+Disallow: /test_image.jpg
+Disallow: /portfolio.html
+Disallow: /CLAUDE.md
+
 Sitemap: https://latinoamericanaspa.com/sitemap.xml
