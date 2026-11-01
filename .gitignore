@@ -16,3 +16,6 @@ scratch/
 .agents/
 .claude/
 skills-lock.json
+
+# Carpeta que Netlify publica. La genera scripts/build-site.js
+public/

@@ -61,10 +61,11 @@ function init() {
 
     const params = new URLSearchParams(window.location.search);
     const estado = params.get('estado');
+    const paymentId = params.get('payment_id') || params.get('collection_id');
 
     if (estado === 'aprobado') {
         history.replaceState({}, '', window.location.pathname);
-        renderGracias();
+        renderGracias(paymentId);
     } else if (estado === 'rechazado') {
         history.replaceState({}, '', window.location.pathname);
         renderPagoRechazado();
@@ -720,6 +721,16 @@ function renderProductDetail(productId) {
 }
 
 function renderCheckout() {
+    sincronizarCarritoConCatalogo();
+    saveCartToStorage();
+    if (cart.length === 0) {
+        showToast('Tu carrito está vacío.', 'info');
+        history.pushState(null, '', '#catalogo');
+        setActiveNav(navCatalogo);
+        renderCatalog();
+        return;
+    }
+
     let orderSummaryHtml = cart.map(item => `
         <div class="order-item-summary">
             <div>
@@ -786,6 +797,11 @@ function renderCheckout() {
 
     document.getElementById('checkout-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        sincronizarCarritoConCatalogo();
+        if (cart.length === 0) {
+            showToast('Tu carrito está vacío.', 'info');
+            return;
+        }
         const f = e.target;
         const btn = document.getElementById('btn-pagar');
 
@@ -826,7 +842,7 @@ function renderCheckout() {
                 })
             });
 
-            const data = await res.json();
+            const data = await res.json().catch(() => ({}));
 
             if (!res.ok) throw new Error(data.error || 'Error al crear preferencia');
 
@@ -836,96 +852,106 @@ function renderCheckout() {
             console.error(err);
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-lock" style="margin-right:8px;"></i>Pagar con Mercado Pago';
-            showToast('Error al conectar con Mercado Pago. Intenta de nuevo.', 'error');
+            const mensaje = err && err.message && !/fetch|network|Failed/i.test(err.message)
+                ? err.message
+                : 'Error al conectar con Mercado Pago. Intenta de nuevo.';
+            showToast(mensaje, 'error');
         }
     });
 }
 
-function renderGracias() {
-    const orderNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+function renderGracias(paymentId) {
+    const pagoId = typeof paymentId === 'string' ? paymentId.trim() : '';
 
-    // Extraer payment_id que Mercado Pago añade a la URL de retorno
-    const urlParams = new URLSearchParams(window.location.search);
-    const mpPaymentId = urlParams.get('payment_id') || null;
-
-    // Recuperar total del último pedido antes de limpiar el carrito
-    const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
-    const lastOrder = orders[orders.length - 1];
-    const totalNum = lastOrder?.totalNum || 0;
-
-    // Marcar pedido como pagado
-    if (lastOrder && lastOrder.estado === 'pendiente_pago') {
-        lastOrder.estado = 'pagado';
-        lastOrder.nroPedido = orderNumber;
-        localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    if (!/^\d{1,20}$/.test(pagoId)) {
+        mostrarPagoSinConfirmar('No encontramos el número de pago de Mercado Pago. Si viste un cobro en tu cuenta, no pagues de nuevo y escríbenos a consultalatinoamericana@gmail.com con tu comprobante.');
+        return;
     }
 
-    // Guardar venta en Supabase
-    if (lastOrder) {
-        fetch('/.netlify/functions/guardar-venta', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nro_pedido: orderNumber,
-                fecha: lastOrder.fecha,
-                nombre: lastOrder.nombre,
-                email: lastOrder.email,
-                telefono: lastOrder.telefono,
-                direccion: lastOrder.direccion,
-                productos: lastOrder.productos,
-                total: lastOrder.totalNum,
-                estado: 'pagado',
-                mp_payment_id: mpPaymentId
+    appContainer.innerHTML = `
+        <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h1 style="font-size: 2rem; margin-bottom: 15px;">Confirmando tu pago</h1>
+            <p style="color: var(--text-gray); font-size: 1.1rem;">Estamos verificando el pago con Mercado Pago. No cierres esta página.</p>
+        </div>
+    `;
+
+    confirmarPagoEnServidor(pagoId);
+}
+
+async function confirmarPagoEnServidor(pagoId) {
+    try {
+        const [ventaRes, correoRes] = await Promise.all([
+            fetch('/.netlify/functions/guardar-venta', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mp_payment_id: pagoId })
+            }),
+            fetch('/.netlify/functions/enviar-confirmacion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mp_payment_id: pagoId })
             })
-        }).catch(err => console.error('Error guardando venta:', err));
+        ]);
 
-        // Enviar emails de confirmación al cliente y al negocio
-        fetch('/.netlify/functions/enviar-confirmacion', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nro_pedido: orderNumber,
-                fecha: lastOrder.fecha,
-                nombre: lastOrder.nombre,
-                email: lastOrder.email,
-                telefono: lastOrder.telefono,
-                direccion: lastOrder.direccion,
-                productos: lastOrder.productos,
-                total: lastOrder.total
-            })
-        }).catch(err => console.error('Error enviando emails:', err));
+        const ventaData = await ventaRes.json().catch(() => ({}));
+        if (!ventaRes.ok) {
+            throw new Error(ventaData.error || 'No se pudo confirmar el pago');
+        }
+
+        const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+        const lastOrder = orders[orders.length - 1];
+        if (lastOrder && lastOrder.estado === 'pendiente_pago') {
+            lastOrder.estado = 'pagado';
+            lastOrder.nroPedido = ventaData.nro_pedido;
+            lastOrder.totalNum = ventaData.total;
+            lastOrder.total = formatPrice(ventaData.total);
+            if (ventaData.productos) lastOrder.productos = ventaData.productos;
+            localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+        }
+
+        cart = [];
+        saveCartToStorage();
+        updateCartUI();
+
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'purchase', {
+                transaction_id: ventaData.nro_pedido,
+                value: ventaData.total,
+                currency: 'CLP',
+                items: []
+            });
+        }
+
+        mostrarGraciasConfirmada(ventaData, correoRes.ok);
+    } catch (err) {
+        console.error(err);
+        mostrarPagoSinConfirmar('Mercado Pago no confirmó este pago o el monto no coincide con el pedido. Si viste un cobro, no pagues de nuevo y escríbenos a consultalatinoamericana@gmail.com con tu comprobante.');
     }
+}
 
-    // Limpiar carrito
-    cart = [];
-    saveCartToStorage();
-    updateCartUI();
-
-    // Google Ads — evento de compra
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'purchase', {
-            transaction_id: orderNumber,
-            value: totalNum,
-            currency: 'CLP',
-            items: []
-        });
-    }
+function mostrarGraciasConfirmada(ventaData, correoOk) {
+    const notaCorreo = correoOk
+        ? 'Hemos enviado un comprobante a tu correo electrónico con los detalles.'
+        : 'Tu pago quedó registrado. Si el correo de confirmación no llega en unos minutos, escríbenos y te lo reenviamos.';
+    const nroPedido = String(ventaData.nro_pedido || '').replace(/[^\w-]/g, '');
+    const totalPagado = formatPrice(Number(ventaData.total) || 0);
 
     appContainer.innerHTML = `
         <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
             <i class="fa-solid fa-circle-check" style="font-size: 5rem; color: var(--secondary); margin-bottom: 20px; animation: bounceIn 0.8s ease;"></i>
             <h1 style="font-size: 2.5rem; margin-bottom: 15px;">¡Gracias por tu compra!</h1>
             <p style="color: var(--text-gray); font-size: 1.1rem; margin-bottom: 30px;">
-                Hemos recibido tu pedido correctamente. Hemos enviado un comprobante a tu correo electrónico con los detalles.
+                Hemos recibido tu pedido correctamente. ${notaCorreo}
             </p>
             <div style="background: var(--bg-light); padding: 20px; border-radius: var(--radius-sm); margin-bottom: 30px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
                     <span style="font-weight: 600;">Número de Orden:</span>
-                    <span style="font-size: 1.1rem; color: var(--primary); font-family: 'Outfit', sans-serif;">#${orderNumber}</span>
+                    <span style="font-size: 1.1rem; color: var(--primary); font-family: 'Outfit', sans-serif;">#${nroPedido}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
                     <span style="font-weight: 600;">Total pagado:</span>
-                    <span style="font-size: 1.1rem; color: var(--primary); font-weight: 700;">${formatPrice(totalNum)}</span>
+                    <span style="font-size: 1.1rem; color: var(--primary); font-weight: 700;">${totalPagado}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                     <span style="font-weight: 600;">Moneda:</span>
@@ -943,6 +969,25 @@ function renderGracias() {
         setActiveNav(navCatalogo);
         renderCatalog();
         window.scrollTo(0,0);
+    });
+}
+
+function mostrarPagoSinConfirmar(texto) {
+    appContainer.innerHTML = `
+        <div style="text-align: center; max-width: 600px; margin: 40px auto; padding: 40px; background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 4rem; color: #d69e2e; margin-bottom: 20px;"></i>
+            <h1 style="font-size: 2rem; margin-bottom: 15px;">No pudimos confirmar el pago</h1>
+            <p style="color: var(--text-gray); font-size: 1.1rem; margin-bottom: 30px;">${texto}</p>
+            <button class="btn btn-primary" id="btn-volver-catalogo-sin-confirmar" style="font-size: 1.1rem; padding: 15px 30px;">
+                Volver al catálogo
+            </button>
+        </div>
+    `;
+    document.getElementById('btn-volver-catalogo-sin-confirmar').addEventListener('click', () => {
+        history.pushState(null, '', '#catalogo');
+        setActiveNav(navCatalogo);
+        renderCatalog();
+        window.scrollTo(0, 0);
     });
 }
 
@@ -1209,7 +1254,8 @@ function toggleCart() {
 }
 
 function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
+    const product = buscarEnCatalogo(productId);
+    if (!product) return;
     const existingItem = cart.find(item => item.id === productId);
 
     if (existingItem) {
@@ -1334,15 +1380,58 @@ function formatPrice(price) {
     return '$' + price.toLocaleString('es-CL');
 }
 
+function buscarEnCatalogo(productId) {
+    const deProductos = products.find(p => p.id === productId);
+    if (deProductos) return deProductos;
+    if (typeof ropaUsada !== 'undefined' && Array.isArray(ropaUsada)) {
+        return ropaUsada.find(p => p.id === productId) || null;
+    }
+    return null;
+}
+
+function sincronizarCarritoConCatalogo() {
+    if (!Array.isArray(cart) || typeof products === 'undefined') {
+        cart = [];
+        return;
+    }
+    const acumulado = [];
+    cart.forEach(item => {
+        if (!item || typeof item.id !== 'string') return;
+        const producto = buscarEnCatalogo(item.id);
+        let cantidad = NaN;
+        if (typeof item.quantity === 'number' && Number.isInteger(item.quantity)) {
+            cantidad = item.quantity;
+        } else if (typeof item.quantity === 'string' && /^[1-9]\d*$/.test(item.quantity)) {
+            cantidad = Number(item.quantity);
+        }
+        if (!producto || !Number.isInteger(cantidad) || cantidad < 1) return;
+        const cantidadAcotada = Math.min(cantidad, 99);
+        const existente = acumulado.find(p => p.id === item.id);
+        if (existente) {
+            existente.quantity = Math.min(99, existente.quantity + cantidadAcotada);
+        } else {
+            acumulado.push({ ...producto, quantity: cantidadAcotada });
+        }
+    });
+    cart = acumulado;
+}
+
 function saveCartToStorage() {
+    sincronizarCarritoConCatalogo();
     localStorage.setItem('latinoamericana_cart', JSON.stringify(cart));
 }
 
 function loadCartFromStorage() {
     const savedCart = localStorage.getItem('latinoamericana_cart');
     if (savedCart) {
-        cart = JSON.parse(savedCart);
+        try {
+            const parsed = JSON.parse(savedCart);
+            cart = Array.isArray(parsed) ? parsed : [];
+        } catch {
+            cart = [];
+        }
     }
+    saveCartToStorage();
     updateCartUI();
 }
 
