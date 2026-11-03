@@ -9,12 +9,16 @@ Tienda e-commerce estática para **Latinoamericana SpA**, empresa chilena distri
 ```
 ├── index.html              # Shell del SPA — contiene header, nav, carrito y footer
 ├── app.js                  # Toda la lógica de la aplicación (routing, renderizado, carrito)
-├── products.js             # Catálogo de productos (array de objetos)
+├── products.js             # Catálogo de productos (array de objetos). También lo usa el servidor.
+├── ropa-usada.js           # Catálogo de ropa usada
 ├── ecommerce-styles.css    # Estilos globales
 ├── imagenes_productos/     # Imágenes de productos (nombradas por ID, ej: AC-001.jpg)
-├── Documentos del negocio/ # Assets de marca: logos, manuales, planillas
-└── download_images.*       # Scripts utilitarios para descarga masiva de imágenes
+├── netlify/functions/      # Mercado Pago, registro de ventas y correos
+├── scripts/build-site.js   # Arma la carpeta public/ que Netlify publica
+└── scripts/download_images.* # Utilidad para descarga masiva de imágenes (no se publica)
 ```
+
+Netlify publica solo `public/`. No vuelvas a dejar planillas, manuales ni precios internos en el repositorio ni en esa carpeta.
 
 ## Stack técnico
 
@@ -52,9 +56,10 @@ Cada producto en `products.js` sigue esta estructura:
 
 ## Carrito
 
-- Se guarda en `localStorage` bajo la clave `latinoamericana_orders`
+- Se guarda en `localStorage` bajo la clave `latinoamericana_cart`
+- Los pedidos locales se guardan en `latinoamericana_orders`
 - La función `toggleCart()` abre/cierra el sidebar
-- El checkout genera un pedido por WhatsApp (no hay pasarela de pago integrada)
+- El checkout cobra con Mercado Pago. El precio lo calcula el servidor desde el catálogo, no el navegador.
 
 ## Comandos útiles
 
@@ -74,5 +79,5 @@ Los scripts `download_images.py` / `download_images.ps1` automatizan la descarga
 
 - Empresa: Latinoamericana SpA (Chile)
 - Moneda: CLP (pesos chilenos)
-- Canal de venta principal: WhatsApp
-- Sin pasarela de pago — el carrito genera un mensaje de pedido por WhatsApp
+- Canal de contacto: WhatsApp
+- El pago del carrito se hace con Mercado Pago
