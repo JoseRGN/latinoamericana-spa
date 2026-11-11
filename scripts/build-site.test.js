@@ -14,8 +14,11 @@ test('la carpeta publicada tiene la tienda y no los archivos internos', () => {
         assert.equal(fs.existsSync(path.join(out, archivo)), true, archivo);
     }
     assert.equal(fs.existsSync(path.join(out, 'imagenes_productos', 'AC-001.jpg')), true);
+    assert.equal(fs.existsSync(path.join(out, 'imagenes_productos', 'PK-026.jpg')), true);
+    assert.equal(fs.existsSync(path.join(out, 'imagenes_productos', 'PK-027.jpg')), true);
+    assert.equal(fs.existsSync(path.join(out, 'imagenes_productos', 'PK-028.jpg')), true);
 
-    for (const prohibido of ['CLAUDE.md', 'scripts', 'skills-lock.json', 'Documentos del negocio', 'netlify', 'api', 'test_image.jpg', 'LATINOAMERICANA SPA']) {
+    for (const prohibido of ['CLAUDE.md', 'scripts', 'skills-lock.json', 'Documentos del negocio', 'imagenes_reales', 'netlify', 'api', 'test_image.jpg', 'LATINOAMERICANA SPA']) {
         assert.equal(fs.existsSync(path.join(out, prohibido)), false, prohibido);
     }
 
