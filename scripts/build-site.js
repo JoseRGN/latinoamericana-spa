@@ -24,6 +24,7 @@ const prohibidos = [
     'scripts',
     'skills-lock.json',
     'Documentos del negocio',
+    'imagenes_reales',
     'netlify',
     'api',
     'test_image.jpg',

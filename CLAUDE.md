@@ -72,7 +72,14 @@ npx serve .
 
 ## Imágenes de productos
 
-Las imágenes deben estar en `imagenes_productos/` con el nombre `{ID}.jpg` (ej: `AC-001.jpg`).
+Las imágenes publicadas viven en `imagenes_productos/` con el nombre `{ID}.jpg` (ej: `AC-001.jpg`), JPEG 400×400.
+
+### Fotos reales (flujo recomendado)
+
+1. Deja las fotos en `imagenes_reales/` nombradas por ID (`SH-002.jpg`, `PK-026.png`, etc.).
+2. Ejecuta `node scripts/apply-real-images.js` — valida el ID, convierte a JPEG 400×400 y reemplaza en `imagenes_productos/`.
+3. `imagenes_reales/` es solo staging: no se publica en Netlify.
+
 Los scripts `download_images.py` / `download_images.ps1` automatizan la descarga desde URLs externas.
 
 ## Contexto de negocio
