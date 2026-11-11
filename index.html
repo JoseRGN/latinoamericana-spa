@@ -4,7 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - Latinoamericana SpA</title>
+    <title>Latinoamericana SpA | Limpieza, higiene y hogar con despacho a todo Chile</title>
+    <meta name="description" content="Tienda chilena de productos de limpieza, higiene y cuidado del hogar. Calidad comprobada, precios accesibles y despacho a todo Chile.">
+    <link rel="canonical" href="https://latinoamericanaspa.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_CL">
+    <meta property="og:site_name" content="Latinoamericana SpA">
+    <meta property="og:title" content="Latinoamericana SpA | Limpieza, higiene y hogar con despacho a todo Chile">
+    <meta property="og:description" content="Tienda chilena de productos de limpieza, higiene y cuidado del hogar. Calidad comprobada, precios accesibles y despacho a todo Chile.">
+    <meta property="og:url" content="https://latinoamericanaspa.com/">
+    <meta property="og:image" content="https://latinoamericanaspa.com/imagenes_productos/banner-ofertas.jpg">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:alt" content="Productos de higiene y limpieza de Latinoamericana SpA">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Latinoamericana SpA | Limpieza, higiene y hogar con despacho a todo Chile">
+    <meta name="twitter:description" content="Tienda chilena de productos de limpieza, higiene y cuidado del hogar. Calidad comprobada, precios accesibles y despacho a todo Chile.">
+    <meta name="twitter:image" content="https://latinoamericanaspa.com/imagenes_productos/banner-ofertas.jpg">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": ["Store", "Organization"],
+        "name": "Latinoamericana SpA",
+        "url": "https://latinoamericanaspa.com/",
+        "logo": "https://latinoamericanaspa.com/logo.png",
+        "image": "https://latinoamericanaspa.com/imagenes_productos/banner-ofertas.jpg",
+        "description": "Tienda chilena de productos de limpieza, higiene y cuidado del hogar, con despacho a todo Chile.",
+        "email": "consultalatinoamericana@gmail.com",
+        "currenciesAccepted": "CLP",
+        "paymentAccepted": "Mercado Pago",
+        "areaServed": {
+            "@type": "Country",
+            "name": "Chile"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "08:00",
+            "closes": "20:00"
+        }
+    }
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -24,10 +64,15 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,800&family=Plus+Jakarta+Sans:wght@400;600;700&family=Raleway:wght@700&display=swap">
     <link rel="stylesheet" href="ecommerce-styles.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" as="image" href="imagenes_productos/banner-ofertas.webp" type="image/webp" fetchpriority="high">
+    <!-- products.js define el catálogo, ropa-usada.js el listado de prendas y app.js los usa. defer mantiene ese orden y no bloquea el render. -->
+    <script defer src="products.js"></script>
+    <script defer src="ropa-usada.js"></script>
+    <script defer src="app.js"></script>
 </head>
 
 <body>
@@ -63,11 +108,11 @@
                 </div>
             </div>
             <nav class="nav-header" id="main-nav" aria-label="Navegación principal">
-                <a class="active" id="nav-inicio">Inicio</a>
-                <a id="nav-catalogo">Catálogo de Productos</a>
-                <a id="nav-ofertas">🔥 Ofertas</a>
-                <!-- <a id="nav-ropa-usada">👗 Ropa Usada</a> -->
-                <a id="nav-contacto" style="cursor:pointer;">Contacto</a>
+                <a class="active" id="nav-inicio" href="#home">Inicio</a>
+                <a id="nav-catalogo" href="#catalogo">Catálogo de Productos</a>
+                <a id="nav-ofertas" href="#ofertas">🔥 Ofertas</a>
+                <!-- <a id="nav-ropa-usada" href="#ropa-usada">👗 Ropa Usada</a> -->
+                <a id="nav-contacto" href="#contacto">Contacto</a>
             </nav>
         </div>
     </header>
@@ -110,13 +155,13 @@
                 <div class="footer-col">
                     <h3>Enlaces Rápidos</h3>
                     <ul>
-                        <li><a href="#" id="footer-inicio">Inicio</a></li>
-                        <li><a href="#" id="footer-catalogo">Catálogo</a></li>
-                        <!-- <li><a href="#" id="footer-ropa-usada">👗 Ropa Usada</a></li> -->
-                        <li><a href="#" id="footer-contacto">Contacto</a></li>
-                        <li><a href="#" id="footer-devoluciones">Devoluciones</a></li>
-                        <li><a href="#" id="footer-privacidad">Políticas de Privacidad</a></li>
-                        <li><a href="#" id="footer-terminos">Términos y Condiciones</a></li>
+                        <li><a href="#home" id="footer-inicio">Inicio</a></li>
+                        <li><a href="#catalogo" id="footer-catalogo">Catálogo</a></li>
+                        <!-- <li><a href="#ropa-usada" id="footer-ropa-usada">👗 Ropa Usada</a></li> -->
+                        <li><a href="#contacto" id="footer-contacto">Contacto</a></li>
+                        <li><a href="#devoluciones" id="footer-devoluciones">Devoluciones</a></li>
+                        <li><a href="#privacidad" id="footer-privacidad">Políticas de Privacidad</a></li>
+                        <li><a href="#terminos" id="footer-terminos">Términos y Condiciones</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -133,13 +178,8 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="products.js"></script>
-    <script src="ropa-usada.js"></script>
-    <script src="app.js"></script>
-
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/5699999999" class="whatsapp-float" target="_blank" title="Contáctanos por WhatsApp">
+    <a href="https://wa.me/5699999999" class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Contáctanos por WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
