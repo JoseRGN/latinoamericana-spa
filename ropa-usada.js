@@ -110,3 +110,7 @@ const ropaUsada = [
         image: "imagenes_ropa/RU-010.jpg"
     }
 ];
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ropaUsada;
+}

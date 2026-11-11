@@ -12,7 +12,14 @@ Thumbs.db
 # Temporales
 scratch/
 
+# Staging de fotos reales (se aplica con scripts/apply-real-images.js)
+imagenes_reales/*
+!imagenes_reales/.gitkeep
+
 # Claude Code
 .agents/
 .claude/
 skills-lock.json
+
+# Carpeta que Netlify publica. La genera scripts/build-site.js
+public/

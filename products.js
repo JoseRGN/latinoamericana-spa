@@ -212,7 +212,7 @@
         price: 8390,
         badge: "💰 Ahorra $1.110",
         packItems: ["Lavaloza", "Detergente", "Cloro", "Bolsas de basura"],
-        image: "imagenes_productos/LA-010.jpg"
+        image: "imagenes_productos/PK-026.jpg"
     },
     {
         id: "PK-027",
@@ -222,7 +222,7 @@
         price: 11890,
         badge: "⭐ Más Popular",
         packItems: ["Lavaloza", "Detergente", "Suavizante", "Cloro", "Desinfectante", "Aromatizante"],
-        image: "imagenes_productos/DT-011.jpg"
+        image: "imagenes_productos/PK-027.jpg"
     },
     {
         id: "PK-028",
@@ -232,7 +232,11 @@
         price: 15390,
         badge: "🏆 Pack Premium",
         packItems: ["Lavaloza", "Detergente", "Suavizante", "Cloro", "Desinfectante", "Aromatizante", "Bolsas de basura", "Toallón"],
-        image: "imagenes_productos/CL-013.jpg"
+        image: "imagenes_productos/PK-028.jpg"
     }
 ];
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = products;
+}
 

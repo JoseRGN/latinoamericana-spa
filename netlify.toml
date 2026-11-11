@@ -1,6 +1,9 @@
+# Netlify publica solo public/, armada por scripts/build-site.js.
+# Documentos internos, CLAUDE.md, scripts y el código de las funciones no se suben al sitio.
 [build]
+  command = "node scripts/build-site.js"
+  publish = "public"
   functions = "netlify/functions"
-  publish = "."
 
 [[headers]]
   for = "/.netlify/functions/*"
@@ -8,3 +11,77 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "Content-Type"
     Access-Control-Allow-Methods = "POST, OPTIONS"
+
+# Si en el panel de Netlify la carpeta publicada quedara en la raíz del repo,
+# estas reglas igual impiden descargar archivos que no son la tienda.
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/skills-lock.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/test_image.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Documentos del negocio/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Documentos%20del%20negocio/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/LATINOAMERICANA SPA/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/LATINOAMERICANA%20SPA/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/*.xlsx"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/*.docx"
+  to = "/404"
+  status = 404
+  force = true
