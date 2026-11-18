@@ -233,6 +233,16 @@
         badge: "🏆 Pack Premium",
         packItems: ["Lavaloza", "Detergente", "Suavizante", "Cloro", "Desinfectante", "Aromatizante", "Bolsas de basura", "Toallón"],
         image: "imagenes_productos/PK-028.jpg"
+    },
+    {
+        id: "PK-029",
+        category: "Packs & Combos",
+        name: "Pack Higiene y Cuidado Personal",
+        description: "Renueva tus básicos de baño sin pagar de más en el supermercado o farmacia. Incluye jabón de baño, desodorante, enjuague bucal y cepillo dental. Súmalo a cualquiera de nuestros Packs de Aseo Hogar para aprovechar un solo envío. Entregas rápidas en Santiago.",
+        price: 7990,
+        badge: "💰 Ahorra $2.010",
+        packItems: ["Jabón de baño", "Desodorante", "Enjuague bucal", "Cepillo dental"],
+        image: "imagenes_productos/PK-029.jpg"
     }
 ];
 
