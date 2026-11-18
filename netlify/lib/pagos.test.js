@@ -125,6 +125,41 @@ test('suma cantidades repetidas del mismo producto', () => {
     assert.equal(result.total, 3500 * 3);
 });
 
+test('PK-029 se cobra a 7990 y los otros packs conservan su precio de catálogo', async () => {
+    const res = await crearPreferencia(evento({
+        items: [
+            { id: 'PK-029', name: 'Pack regalado', price: 1, quantity: 1 },
+            { id: 'PK-026', price: 1, quantity: 1 },
+            { id: 'PK-027', price: 1, quantity: 1 },
+            { id: 'PK-028', price: 1, quantity: 1 }
+        ],
+        payer: {
+            nombre: 'Ana Pérez',
+            email: 'ana@cliente.cl',
+            telefono: '+56 9 1234 5678',
+            direccion: 'Av. Siempre Viva 123'
+        }
+    }));
+    assert.equal(res.statusCode, 200);
+    const preference = llamadas.find(c => c.url.includes('/checkout/preferences')).body;
+    const porId = Object.fromEntries(preference.items.map(item => [item.id, item]));
+    assert.equal(porId['PK-029'].title, 'Pack Higiene y Cuidado Personal');
+    assert.equal(porId['PK-029'].unit_price, 7990);
+    assert.equal(porId['PK-029'].currency_id, 'CLP');
+    assert.equal(porId['PK-029'].quantity, 1);
+    assert.equal(porId['PK-026'].unit_price, 8390);
+    assert.equal(porId['PK-027'].unit_price, 11890);
+    assert.equal(porId['PK-028'].unit_price, 15390);
+    const total = preference.items.reduce((suma, item) => suma + item.unit_price * item.quantity, 0);
+    assert.equal(total, 7990 + 8390 + 11890 + 15390);
+    assert.deepEqual(JSON.parse(preference.metadata.items), [
+        { id: 'PK-029', q: 1 },
+        { id: 'PK-026', q: 1 },
+        { id: 'PK-027', q: 1 },
+        { id: 'PK-028', q: 1 }
+    ]);
+});
+
 test('la preferencia usa el precio del catálogo y no el del navegador', async () => {
     const res = await crearPreferencia(evento({
         items: [{ id: 'AC-001', name: 'Gratis', price: 1, quantity: 2 }],
